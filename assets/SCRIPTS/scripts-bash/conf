@@ -1,0 +1,159 @@
+#!/bin/bash
+
+# Activer la prise en charge des couleurs ANSI
+export TERM=xterm-256color
+
+# Fonction pour poser une question en jaune
+poser_question() {
+    local question="$1"
+    echo -e "$(tput setaf 3)$question$(tput sgr0)"
+}
+
+# Fonction pour poser une question avec un choix (o/n) en orange
+poser_question_avec_choix() {
+    local question="$1"
+    echo -e "$(tput setaf 3)$question$(tput sgr0)$(tput setaf 202)o$(tput sgr0)/$(tput setaf 202)n$(tput sgr0)"
+}
+
+# Fonction pour vérifier la configuration DHCP ou statique
+verifier_configuration() {
+    local carte="$1"
+    local configuration=$(ip addr show dev "$carte")
+    # Vérifier si la carte est configurée en DHCP ou statique
+    if echo "$configuration" | grep -q "inet .* dynamic"; then
+        echo -e "$(tput setaf 2)Votre carte $carte est configurée en DHCP.$(tput sgr0)"
+        # Afficher la configuration DHCP actuelle
+        echo -e "\n$(tput setaf 4)Configuration actuelle de la carte $carte en DHCP :$(tput sgr0)"
+        echo "$configuration"
+        # Proposer de passer à la configuration statique
+        poser_question_avec_choix "Voulez-vous passer à la configuration statique ? (o/n): "
+        read choix
+        if [ "$choix" = "o" ]; then
+            passer_en_statique "$carte"
+        fi
+    else
+        echo -e "$(tput setaf 2)Votre carte $carte est configurée en statique.$(tput sgr0)"
+        # Proposer de voir la configuration actuelle
+        poser_question_avec_choix "Voulez-vous voir la configuration actuelle ? (o/n): "
+        read choix
+        if [ "$choix" = "o" ]; then
+            echo -e "\n$(tput setaf 4)Configuration actuelle de la carte $carte en statique :$(tput sgr0)"
+            echo "$configuration"
+        fi
+        # Proposer de conserver ou modifier la configuration actuelle
+        poser_question_avec_choix "Voulez-vous conserver la configuration actuelle ? (o/n): "
+        read choix
+        if [ "$choix" = "n" ]; then
+            passer_en_statique "$carte"
+        fi
+    fi
+}
+
+# Fonction pour passer à la configuration statique
+passer_en_statique() {
+    local carte="$1"
+    poser_question "Entrez l'adresse IP avec le masque CIDR (par exemple, 192.168.31.150/24): "
+    read adresse_ip
+    poser_question "Entrez la passerelle: "
+    read passerelle
+    # Mettre à jour la configuration
+    echo -e "network:\n  version: 2\n  renderer: networkd\n  ethernets:\n    $carte:\n      dhcp4: no\n      addresses: [$adresse_ip]\n      gateway4: $passerelle" | sudo tee /etc/netplan/00-installer-config.yaml >/dev/null
+    # Appliquer la configuration
+    sudo netplan apply
+    echo "$(tput setaf 4)La configuration a été mise à jour et la carte réseau redémarrée.$(tput sgr0)"
+}
+
+# Fonction pour vérifier la configuration DNS
+verifier_dns() {
+    local carte="$1"
+    local dns=$(systemd-resolve --status | grep 'DNS Servers' | awk '{print $3}')
+    poser_question_avec_choix "Voulez-vous afficher la configuration DNS ? (o/n): "
+    read choix
+    if [ "$choix" = "o" ]; then
+        echo -e "\n$(tput setaf 4)Configuration DNS actuelle :$(tput sgr0)"
+        echo "$dns"
+        # Proposer de conserver ou modifier la configuration DNS
+        poser_question_avec_choix "Voulez-vous modifier la configuration DNS ? (o/n): "
+        read choix
+        if [ "$choix" = "o" ]; then
+            modifier_dns "$carte"
+        else
+            echo "$(tput setaf 2)Merci, votre configuration réseau est OK.$(tput sgr0)"
+        fi
+    fi
+}
+
+# Fonction pour modifier la configuration DNS
+modifier_dns() {
+    local carte="$1"
+    poser_question "Entrez le nouveau serveur DNS : "
+    read new_dns
+    # Mettre à jour la configuration DNS
+    sudo sed -i "s/^nameservers.*/nameservers: [$new_dns]/" /etc/netplan/00-installer-config.yaml
+    # Appliquer la configuration
+    sudo netplan apply
+    echo "$(tput setaf 4)La configuration DNS a été mise à jour.$(tput sgr0)"
+    # Redémarrer la carte réseau
+    echo "$(tput setaf 4)Redémarrage de la carte réseau...$(tput sgr0)"
+    sudo ip link set dev "$carte" down
+    sudo ip link set dev "$carte" up
+    echo "$(tput setaf 4)La carte réseau a été redémarrée.$(tput sgr0)"
+}
+
+# Fonction pour afficher la configuration réseau finale
+afficher_configuration_finale() {
+    echo -e "\n$(tput setaf 4)Configuration réseau finale :$(tput sgr0)"
+    cat /etc/netplan/00-installer-config.yaml
+    echo -e "\n$(tput setaf 4)Configuration DNS finale :$(tput sgr0)"
+    systemd-resolve --status | grep 'DNS Servers'
+    echo "$(tput setaf 2)La configuration réseau finale a été affichée.$(tput sgr0)"
+}
+
+# Fonction pour désactiver puis réactiver la carte réseau
+desactiver_et_reactiver_carte() {
+    local carte="$1"
+    echo "$(tput setaf 4)Désactivation de la carte réseau...$(tput sgr0)"
+    sudo ip link set dev "$carte" down
+    sleep 2  # Attente de 2 secondes
+    echo "$(tput setaf 4)Réactivation de la carte réseau...$(tput sgr0)"
+    sudo ip link set dev "$carte" up
+    sleep 2  # Attente de 2 secondes
+    echo "$(tput setaf 4)La carte réseau a été désactivée puis réactivée.$(tput sgr0)"
+}
+
+# Vérifier les cartes réseau disponibles
+cartes=($(ip link show | grep -o '^[0-9]\+: [a-zA-Z0-9]*:' | cut -d' ' -f2 | tr -d ':'))
+
+# Compter le nombre de cartes réseau
+nb_cartes=${#cartes[@]}
+
+# Afficher le nombre de cartes réseau
+echo "$(tput setaf 2)Vous avez $nb_cartes carte(s) réseau.$(tput sgr0)"
+
+# Afficher la liste des cartes réseau disponibles
+for ((i = 0; i < $nb_cartes; i++)); do
+    echo "$((i + 1)) : ${cartes[i]}"
+done
+
+# Désactiver une carte si nécessaire
+if [ "$nb_cartes" -gt 1 ]; then
+    desactiver_carte "${cartes[@]}"
+fi
+
+# Trouver la carte réseau active
+carte_active=$(ip route get 1 | awk 'NR==1{print $5}')
+
+# Afficher la carte active
+echo -e "\n$(tput setaf 4)La carte active est: $carte_active$(tput sgr0)"
+
+# Appeler la fonction pour vérifier la configuration de la carte active
+verifier_configuration "$carte_active"
+
+# Appeler la fonction pour vérifier la configuration DNS
+verifier_dns "$carte_active"
+
+# Appeler la fonction pour désactiver puis réactiver la carte réseau
+desactiver_et_reactiver_carte "$carte_active"
+
+# Afficher la configuration réseau finale
+afficher_configuration_finale

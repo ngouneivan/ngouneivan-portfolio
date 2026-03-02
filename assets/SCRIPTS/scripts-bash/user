@@ -1,0 +1,272 @@
+#!/bin/bash
+
+# Fonction pour afficher un message en vert
+print_green() {
+    echo -e "\033[32m$1\033[0m"
+}
+
+# Fonction pour afficher un message en jaune
+print_yellow() {
+    echo -e "\033[33m$1\033[0m"
+}
+
+# Fonction pour afficher un message en rouge
+print_red() {
+    echo -e "\033[31m$1\033[0m"
+}
+
+# Fonction pour afficher un message en bleu
+print_blue() {
+    echo -e "\033[34m$1\033[0m"
+}
+
+# Fonction pour demander à l'utilisateur s'il souhaite continuer
+ask_continue() {
+    print_blue "Voulez-vous continuer ? (o/n) : "
+    read choice
+    if [ "$choice" = "n" ]; then
+        print_yellow "Merci et au revoir !"
+        exit 0
+    elif [ "$choice" != "o" ]; then
+        print_red "Choix invalide. Merci et au revoir !"
+        exit 1
+    fi
+}
+
+# Fonction pour créer un nouvel utilisateur
+create_user() {
+    print_blue "Entrez le nom de l'utilisateur : "
+    read username
+    print_blue "Entrez le mot de passe de l'utilisateur : "
+    read -s password
+    echo ""
+    sudo useradd -m "$username"
+    echo "$username:$password" | sudo chpasswd
+    if [ $? -eq 0 ]; then
+        print_green "L'utilisateur '$username' a été créé avec succès."
+    else
+        print_red "Échec de la création de l'utilisateur '$username'."
+    fi
+    ask_continue
+}
+
+# Fonction pour afficher la liste des groupes disponibles
+list_groups() {
+    print_blue "Liste des groupes disponibles :"
+    groups=$(cut -d: -f1 /etc/group | sort | awk '{printf "\033[33m%-20s\033[0m", $0} NR%4==0 {print ""}')
+    echo -e "$groups"
+    print_blue "C) Créer un nouveau groupe"
+}
+
+# Fonction pour créer un nouveau groupe
+create_new_group() {
+    print_blue "Entrez le nom du nouveau groupe : "
+    read new_group
+    sudo groupadd "$new_group"
+    if [ $? -eq 0 ]; then
+        print_green "Le groupe '$new_group' a été créé avec succès."
+    else
+        print_red "Échec de la création du groupe '$new_group'."
+    fi
+    ask_continue
+}
+
+# Fonction pour changer le groupe d'un utilisateur
+change_user_group() {
+    print_blue "Voulez-vous voir la liste des utilisateurs ? (o/n) : "
+    read show_users
+    if [ "$show_users" = "o" ]; then
+        list_users
+        print_blue "Entrez le nom de l'utilisateur que vous souhaitez déplacer : "
+        read username
+        if id "$username" &>/dev/null; then
+            list_groups
+            print_blue "Entrez le nom du nouveau groupe ou 'C' pour créer un nouveau groupe : "
+            read group_name
+            if [ "$group_name" = "C" ] || [ "$group_name" = "c" ]; then
+                create_new_group
+                list_users
+                print_blue "Entrez le nom de l'utilisateur que vous souhaitez déplacer : "
+                read username
+                if id "$username" &>/dev/null; then
+                    list_groups
+                    print_blue "Entrez le nom du groupe dans lequel vous souhaitez déplacer l'utilisateur : "
+                    read group_name
+                else
+                    print_red "Impossible de déplacer un utilisateur qui n'existe pas."
+                    return
+                fi
+            fi
+
+            if grep -q "^$group_name:" /etc/group; then
+                group=$group_name
+            else
+                print_red "Le groupe '$group_name' n'existe pas. Voulez-vous le créer ? (o/n) : "
+                read create_group
+                if [ "$create_group" = "o" ]; then
+                    sudo groupadd "$group_name"
+                    if [ $? -eq 0 ]; then
+                        print_green "Le groupe '$group_name' a été créé avec succès."
+                        group=$group_name
+                    else
+                        print_red "Échec de la création du groupe '$group_name'."
+                        return
+                    fi
+                else
+                    return
+                fi
+            fi
+
+            if groups=$(id -Gn "$username"); then
+                if [[ "$groups" == *"$group"* ]]; then
+                    print_yellow "L'utilisateur '$username' est déjà dans le groupe '$group'."
+                else
+                    sudo usermod -aG "$group" "$username"
+                    if [ $? -eq 0 ]; then
+                        print_green "L'utilisateur '$username' a été ajouté au groupe '$group'."
+                    else
+                        print_red "Échec de l'ajout de l'utilisateur '$username' au groupe '$group'."
+                    fi
+                fi
+            else
+                print_red "Erreur lors de la récupération des groupes de l'utilisateur '$username'."
+            fi
+        else
+            print_yellow "L'utilisateur '$username' n'existe pas."
+        fi
+    else
+        print_blue "Fermeture du programme."
+    fi
+    ask_continue
+}
+
+# Fonction pour afficher la liste des utilisateurs
+list_users() {
+    print_blue "Liste des utilisateurs :"
+    awk -F: '{ printf "\033[33m%-20s\033[0m", $1; if (NR % 4 == 0) printf "\n"}' /etc/passwd
+    echo ""
+}
+
+# Fonction pour changer le mot de passe d'un utilisateur
+change_user_password() {
+    list_users
+    print_blue "Entrez le nom de l'utilisateur dont vous souhaitez modifier le mot de passe : "
+    read username
+    if id "$username" &>/dev/null; then
+        print_blue "Entrez le nouveau mot de passe : "
+        read -s new_password
+        echo ""
+        print_blue "Confirmez le nouveau mot de passe : "
+        read -s confirm_password
+        echo ""
+        if [ "$new_password" != "$confirm_password" ]; then
+            print_red "Les mots de passe ne correspondent pas."
+            return
+        fi
+        print_blue "Voulez-vous vraiment modifier le mot de passe de l'utilisateur '$username' ? (o/n) : "
+        read confirm
+        if [ "$confirm" = "o" ]; then
+            echo "$username:$new_password" | sudo chpasswd
+            if [ $? -eq 0 ]; then
+                print_green "Le mot de passe de l'utilisateur '$username' a été modifié avec succès."
+            else
+                print_red "Échec de la modification du mot de passe de l'utilisateur '$username'."
+            fi
+        else
+            print_yellow "Modification du mot de passe annulée."
+        fi
+    else
+        print_yellow "L'utilisateur '$username' n'existe pas."
+    fi
+    ask_continue
+}
+
+# Fonction pour supprimer un utilisateur
+delete_user() {
+    list_users
+    print_blue "Entrez le nom de l'utilisateur que vous souhaitez supprimer : "
+    read username
+    if id "$username" &>/dev/null; then
+        print_blue "Voulez-vous vraiment supprimer l'utilisateur '$username' ? (o/n) : "
+        read confirm
+        if [ "$confirm" = "o" ]; then
+            sudo userdel -r "$username"
+            if [ $? -eq 0 ]; then
+                print_green "L'utilisateur '$username' a été supprimé avec succès."
+            else
+                print_red "Échec de la suppression de l'utilisateur '$username'."
+            fi
+        else
+            print_yellow "Suppression de l'utilisateur annulée."
+        fi
+    else
+        print_yellow "L'utilisateur '$username' n'existe pas."
+    fi
+    ask_continue
+}
+
+# Fonction pour supprimer un groupe
+delete_group() {
+    list_groups
+    print_blue "Entrez le nom du groupe que vous souhaitez supprimer : "
+    read group_name
+    if grep -q "^$group_name:" /etc/group; then
+        print_blue "Voulez-vous vraiment supprimer le groupe '$group_name' ? (o/n) : "
+        read confirm
+        if [ "$confirm" = "o" ]; then
+            sudo groupdel "$group_name"
+            if [ $? -eq 0 ]; then
+                print_green "Le groupe '$group_name' a été supprimé avec succès."
+            else
+                print_red "Échec de la suppression du groupe '$group_name'."
+            fi
+        else
+            print_yellow "Suppression du groupe annulée."
+        fi
+    else
+        print_yellow "Le groupe '$group_name' n'existe pas."
+    fi
+    ask_continue
+}
+
+# Fonction principale
+main() {
+    while true; do
+        print_yellow "Menu :"
+        print_yellow "1= Créer un utilisateur"
+        print_yellow "2= Changer de groupe pour un utilisateur"
+        print_yellow "3= Changer le mot de passe d'un utilisateur"
+        print_yellow "4= Supprimer un utilisateur ou un groupe"
+        print_blue "Choisissez une option : "
+        read option
+
+        case $option in
+            1)
+                create_user
+                ;;
+            2)
+                change_user_group
+                ;;
+            3)
+                change_user_password
+                ;;
+            4)
+                print_blue "Vous voulez supprimer un utilisateur ou un groupe ? (G pour groupe, U pour utilisateur) : "
+                read choice
+                if [ "$choice" = "G" ] || [ "$choice" = "g" ]; then
+                    delete_group
+                elif [ "$choice" = "U" ] || [ "$choice" = "u" ]; then
+                    delete_user
+                else
+                    print_yellow "Option invalide. Fermeture du programme."
+                fi
+                ;;
+            *)
+                print_yellow "Option invalide. Fermeture du programme."
+                ;;
+        esac
+    done
+}
+
+# Appeler la fonction principale
+main

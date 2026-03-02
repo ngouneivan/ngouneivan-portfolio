@@ -1,0 +1,88 @@
+#!/bin/bash
+
+# Vérifier si le script est exécuté en tant que root
+if [[ $EUID -ne 0 ]]; then
+    echo "Ce script doit être exécuté avec sudo ou en tant que root."
+    exit 1
+fi
+
+echo "🔍 Détection de l'interface réseau principale..."
+INTERFACE=$(ip -o -4 route show default | awk '{print $5}')
+IP_ADDRESS=$(ip -o -4 addr show $INTERFACE | awk '{print $4}' | cut -d'/' -f1)
+
+if [[ -z "$IP_ADDRESS" ]]; then
+    echo "❌ Impossible de détecter l'adresse IP. Vérifiez votre connexion réseau."
+    exit 1
+fi
+
+echo "🌍 Interface détectée : $INTERFACE"
+echo "📌 Adresse IP détectée : $IP_ADDRESS"
+
+echo "🔄 Installation du serveur NTP..."
+apt update && apt install -y ntp
+
+echo "📂 Sauvegarde de l'ancienne configuration..."
+cp /etc/ntp.conf /etc/ntp.conf.backup
+
+echo "🛠 Configuration du serveur NTP..."
+cat > /etc/ntp.conf <<EOL
+# Configuration automatique du serveur NTP
+driftfile /var/lib/ntp/ntp.drift
+
+# Serveurs de référence
+pool ntp.ubuntu.com iburst
+pool 0.pool.ntp.org iburst
+pool 1.pool.ntp.org iburst
+pool 2.pool.ntp.org iburst
+
+# Autoriser la synchronisation locale
+restrict 127.0.0.1
+restrict ::1
+restrict $IP_ADDRESS mask 255.255.255.0 nomodify notrap
+
+# Activer la diffusion NTP sur le réseau local
+broadcast $IP_ADDRESS
+EOL
+
+echo "🔄 Redémarrage du service NTP..."
+systemctl restart ntp
+systemctl enable ntp
+
+echo "🛠 Vérification du statut du service..."
+if systemctl is-active --quiet ntp; then
+    echo "✅ Le service NTP est actif et fonctionne."
+else
+    echo "❌ Le service NTP ne fonctionne pas. Vérifiez la configuration."
+    exit 1
+fi
+
+echo "⏳ Vérification de la synchronisation NTP..."
+sleep 5
+ntpq -p
+
+echo "🔎 Vérification avec la commande timedatectl..."
+timedatectl status | grep -E "NTP|Time|Clock"
+
+# Vérification et correction de systemd-timesyncd si nécessaire
+if ! timedatectl status | grep -q "NTP synchronized: yes"; then
+    echo "❌ NTP synchronization is not active. Switching to systemd-timesyncd..."
+
+    echo "🔄 Installation de systemd-timesyncd..."
+    apt update && apt install -y systemd-timesyncd
+
+    echo "🔄 Démarrage et activation de systemd-timesyncd..."
+    systemctl enable --now systemd-timesyncd
+
+    echo "🔄 Vérification du statut de systemd-timesyncd..."
+    if timedatectl show-timesync --all | grep -q "ServerName=ntp.ubuntu.com"; then
+        echo "✅ systemd-timesyncd est actif et synchronisé."
+    else
+        echo "❌ systemd-timesyncd ne fonctionne pas correctement. Vérifiez la configuration."
+        exit 1
+    fi
+else
+    echo "✅ NTP synchronization is active."
+fi
+
+echo "🎉 Configuration du serveur NTP terminée avec succès !"
+exit 0

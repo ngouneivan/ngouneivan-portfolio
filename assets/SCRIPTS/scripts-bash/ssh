@@ -1,0 +1,68 @@
+#!/bin/bash
+
+# Vérifier si le serveur SSH est installé
+if dpkg -s openssh-server >/dev/null 2>&1; then
+    # SSH est installé
+    echo -e "\e[32mLe serveur SSH est déjà installé.\e[0m"
+    
+    # Vérifier si une configuration existe
+    if [ -f /etc/ssh/sshd_config ]; then
+        echo -e "\e[33mUne configuration SSH existante a été trouvée.\e[0m"
+        
+        # Demander à l'utilisateur s'il souhaite afficher la configuration existante
+        read -p "Voulez-vous afficher la configuration actuelle ? (o/n) " choix_affichage
+        if [ "$choix_affichage" == "o" ]; then
+            echo -e "\e[33mConfiguration SSH existante :"
+            cat /etc/ssh/sshd_config
+            echo -e "\e[0m"
+        elif [ "$choix_affichage" != "n" ]; then
+            echo -e "\e[31mChoix invalide. Continuation du script sans afficher la configuration existante.\e[0m"
+        fi
+        
+        # Demander à l'utilisateur s'il souhaite conserver la configuration existante
+        read -p "Voulez-vous conserver la configuration actuelle ? (o/n) " choix
+        if [ "$choix" == "o" ]; then
+            echo -e "\e[32mVous avez choisi de conserver la configuration actuelle.\e[0m"
+            exit 0
+        elif [ "$choix" == "n" ]; then
+            echo -e "\e[33mVous avez choisi d'écraser la configuration actuelle.\e[0m"
+        else
+            echo -e "\e[31mChoix invalide. Arrêt du script.\e[0m"
+            exit 1
+        fi
+    fi
+    
+else
+    # SSH n'est pas installé
+    echo -e "\e[31mLe serveur SSH n'est pas installé.\e[0m"
+    
+    # Demander à l'utilisateur s'il souhaite installer SSH
+    read -p "Voulez-vous installer le serveur SSH ? (o/n) " choix
+    if [ "$choix" == "o" ]; then
+        echo -e "\e[33mInstallation du serveur SSH en cours...\e[0m"
+        sudo apt update
+        sudo apt install -y openssh-server
+    elif [ "$choix" == "n" ]; then
+        echo -e "\e[31mImpossible de configurer un service non installé. Arrêt du script.\e[0m"
+        exit 1
+    else
+        echo -e "\e[31mChoix invalide. Arrêt du script.\e[0m"
+        exit 1
+    fi
+fi
+
+# Nouvelle configuration SSH
+read -p "Entrez le nouveau port pour SSH : " new_port
+echo -e "\e[33mConfiguration SSH en cours...\e[0m"
+sudo sed -i "s/^Port .*/Port $new_port/" /etc/ssh/sshd_config
+
+# Redémarrer SSH
+echo -e "\e[33mRedémarrage du service SSH...\e[0m"
+sudo systemctl restart ssh
+
+# Vérifier le statut de SSH
+if sudo systemctl is-active --quiet ssh; then
+    echo -e "\e[32mLe service SSH a redémarré et est en cours d'exécution sur le port $new_port.\e[0m"
+else
+    echo -e "\e[31mErreur lors du redémarrage du service SSH. Veuillez vérifier les journaux pour plus d'informations.\e[0m"
+fi

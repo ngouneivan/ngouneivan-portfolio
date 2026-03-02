@@ -1,0 +1,18 @@
+---
+- name: Déploiement de GLPI avec Docker
+  hosts: client1
+  become: true
+
+  tasks:
+    - name: Lancer le conteneur GLPI
+      community.docker.docker_container:
+        name: glpi
+        image: diouxx/glpi
+        state: started
+        restart_policy: always
+        published_ports:
+          - "8080:80"
+        env:
+          DB_HOST: 172.17.0.2   # IP du conteneur mariadb ou nom s’ils partagent le réseau
+          DB_USER: root
+          DB_PASSWORD: root

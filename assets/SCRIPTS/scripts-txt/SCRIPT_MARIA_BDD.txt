@@ -1,0 +1,26 @@
+---
+- name: Déployer un conteneur MariaDB pour GLPI
+  hosts: client1@192.168.182.160
+  become: yes
+  tasks:
+    - name: Créer un réseau Docker pour GLPI et MariaDB
+      docker_network:
+        name: glpi_network
+
+    - name: Déployer le conteneur MariaDB
+      docker_container:
+        name: mariadb
+        image: mariadb:latest
+        env:
+          MYSQL_ROOT_PASSWORD: "root"
+          MYSQL_DATABASE: "glpidb"
+          MYSQL_USER: "glpi_user"
+          MYSQL_PASSWORD: "root"
+        networks:
+          - name: glpi_network
+        ports:
+          - "3306:3306"
+        volumes:
+          - /opt/mariadb/data:/var/lib/mysql
+        restart_policy: always
+

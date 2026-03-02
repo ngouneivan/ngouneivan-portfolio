@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact – Ivan Tonfack</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</head>
+
+<body class="page">
+
+<header id="header">
+    <div class="container">
+        <nav class="nav">
+            <div class="logo">IVAN TONFACK</div>
+
+            <div class="nav-toggle" id="nav-toggle">
+                <span></span><span></span><span></span>
+            </div>
+
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="about.html">À propos</a></li>
+                <li><a href="skills.html">Compétences</a></li>
+                <li><a href="projects.html">Projets</a></li>
+                <li><a href="experience.html">Expérience</a></li>
+                <li><a href="contact.html" class="active">Contact</a></li>
+            </ul>
+
+            <!-- 🔵 Bouton GitHub -->
+            <a href="https://github.com/ivan-tonfack" target="_blank" class="btn btn-ghost nav-github">
+                <i class="bi bi-github"></i> GitHub
+            </a>
+
+        </nav>
+    </div>
+</header>
+
+<section class="section">
+    <div class="container contact-wrapper">
+
+        <h1 class="section-title center">Me contacter</h1>
+        <p class="section-subtitle center">Pour une opportunité, une collaboration ou une question</p>
+
+        <div class="contact-grid">
+
+            <!-- INFOS DIRECTES -->
+            <div class="section-card contact-info">
+                <h3>Informations directes</h3>
+
+                <p>
+                    <i class="bi bi-envelope-fill"></i>
+                    <strong>Email :</strong><br>
+                    <span class="masked-link" data-url="mailto:ivantonfack53@gmail.com">
+                        Me contacter par email
+                    </span>
+                </p>
+
+                <p>
+                    <i class="bi bi-linkedin"></i>
+                    <strong>LinkedIn :</strong><br>
+                    <span class="masked-link" data-url="https://www.linkedin.com/in/ivan-tonfack-ngoune-5232b4245/">
+                        Me suivre sur LinkedIn
+                    </span>
+                </p>
+
+                <p>
+                    <i class="bi bi-github"></i>
+                    <strong>GitHub :</strong><br>
+                    <span class="masked-link" data-url="https://github.com/ngouneivan">
+                        Voir mon GitHub
+                    </span>
+                </p>
+
+                <p>
+                    <i class="bi bi-telephone-fill"></i>
+                    <strong>Téléphone :</strong><br>
+                    07 53 36 76 79
+                </p>
+
+                <p>
+                    <i class="bi bi-geo-alt-fill"></i>
+                    <strong>Localisation :</strong><br>
+                    Aix‑en‑Provence, France
+                </p>
+
+                <p>
+                    <i class="bi bi-car-front-fill"></i>
+                    <strong>Permis : Véhicule Personnel</strong><br>
+                    Permis B
+                </p>
+            </div>
+
+            <!-- FORMULAIRE -->
+            <div class="section-card contact-form">
+                <h3>Envoyer un message</h3>
+
+                <form action="#" method="POST">
+
+                    <div class="form-group">
+                        <label for="name">Nom</label>
+                        <input type="text" id="name" name="name" placeholder="Votre nom" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Adresse email</label>
+                        <input type="email" id="email" name="email" placeholder="Votre email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="5" placeholder="Votre message..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Envoyer</button>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<footer class="section">
+    <div class="container">
+        <p class="text-muted">© 2026 – Portfolio d’Ivan Tonfack. Tous droits réservés.</p>
+    </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+
+<!-- Activation des liens masqués -->
+<script>
+document.querySelectorAll(".masked-link").forEach(link => {
+    link.addEventListener("click", () => {
+        const url = link.getAttribute("data-url");
+        if (url) window.open(url, "_blank");
+    });
+});
+</script>
+
+</body>
+</html>

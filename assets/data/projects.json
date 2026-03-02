@@ -1,0 +1,423 @@
+{
+  "projects": [
+    {
+      "id": "laps",
+      "titre": "Migration vers Windows LAPS",
+      "date": "2025",
+      "type": "Cybersécurité / IAM",
+      "pourquoi": "Renforcer la sécurité des comptes locaux et remplacer l'ancien Microsoft LAPS en fin de vie.",
+      "descriptionCourte": "Migration complète de l'ancien Microsoft LAPS vers Windows LAPS avec chiffrement AD, rotation automatique et durcissement RBAC.",
+      "descriptionLongue": "Dans le cadre de mon alternance chez SCP, j’ai piloté la migration de l’ancien Microsoft LAPS vers la nouvelle solution Windows LAPS. L’objectif était de renforcer la sécurité des comptes locaux tout en modernisant la gestion des mots de passe administrateurs. J’ai mené un audit complet de l’existant, analysé les permissions AD, configuré les nouvelles GPO, activé le chiffrement natif des secrets dans l’Active Directory et mis en place un modèle RBAC strict. J’ai également rédigé la documentation d’exploitation pour les équipes support. Ce projet m’a permis de consolider mes compétences en administration Windows Server et en gestion des comptes à privilèges (PAM).",
+      "resultats": [
+        "Sécurité renforcée grâce au chiffrement natif des secrets",
+        "Suppression de l'ancien agent client",
+        "Conformité ANSSI atteinte",
+        "Gestion centralisée et automatisée des mots de passe locaux"
+      ],
+      "technologies": ["Windows Server", "Active Directory", "GPO", "Windows LAPS"],
+      "competences": ["PAM", "Sécurité Windows", "Administration AD", "Durcissement"],
+      "impressions": 2300,
+      "image": "laps.png",
+      "images": ["laps.png"]
+    },
+
+    {
+      "id": "wazuh",
+      "titre": "Déploiement d'une solution SIEM/XDR Wazuh",
+      "date": "2025",
+      "type": "Cybersécurité",
+      "pourquoi": "Évaluer une solution SIEM/XDR open-source pour la détection d’incidents et la surveillance centralisée.",
+      "descriptionCourte": "Déploiement de Wazuh en environnement lab pour analyser logs, vulnérabilités et intégrité des systèmes.",
+      "descriptionLongue": "Dans le cadre de mon cursus MICSI, j’ai déployé Wazuh afin d’évaluer ses capacités SIEM/XDR. J’ai configuré la collecte centralisée des logs Windows et Linux, activé la détection de vulnérabilités, la surveillance d’intégrité (FIM) et les alertes automatisées. L’interface Wazuh m’a permis d’analyser les incidents en profondeur et de comprendre les mécanismes de corrélation. Ce projet m’a donné une vision concrète de la défense en profondeur et des enjeux opérationnels d’un SOC.",
+      "resultats": [
+        "Visibilité complète sur les logs Windows et Linux",
+        "Détection automatique des vulnérabilités",
+        "Mise en place de la surveillance d’intégrité (FIM)",
+        "Analyse centralisée des incidents"
+      ],
+      "technologies": ["Wazuh", "Linux", "Windows", "FIM", "SIEM"],
+      "competences": ["Détection d’intrusion", "Analyse de logs", "Cybersécurité", "XDR"],
+      "impressions": 1800,
+      "image": "wazuh.png",
+      "images": ["wazuh2.png"]
+    },
+
+    {
+      "id": "radius",
+      "titre": "Serveur d'authentification centralisée RADIUS (NPS)",
+      "date": "2023",
+      "type": "Sécurité réseau",
+      "pourquoi": "Centraliser et sécuriser l’authentification des accès réseau.",
+      "descriptionCourte": "Déploiement d’un serveur RADIUS/NPS intégré à l’Active Directory pour sécuriser les accès Wi-Fi/VPN.",
+      "descriptionLongue": "Dans un environnement Home Lab, j’ai déployé un serveur RADIUS basé sur NPS afin de centraliser l’authentification réseau. J’ai installé et configuré Windows Server, intégré NPS à l’Active Directory, mis en place des Network Policies et configuré l’authentification sécurisée via PEAP-MS-CHAPv2. Ce projet m’a permis de comprendre en profondeur les mécanismes d’authentification réseau et la gestion granulaire des accès.",
+      "resultats": [
+        "Authentification centralisée via AD",
+        "Sécurisation des accès Wi-Fi/VPN",
+        "Gestion granulaire des permissions",
+        "Mise en place de certificats pour PEAP"
+      ],
+      "technologies": ["NPS", "RADIUS", "Active Directory", "Windows Server"],
+      "competences": ["Sécurité réseau", "AAA", "AD DS", "Politiques réseau"],
+      "impressions": 1600,
+      "image": "radius.png",
+      "images": ["radius.png"]
+    },
+
+    {
+      "id": "pfsense",
+      "titre": "Portail Captif & NAC avec pfSense",
+      "date": "2021",
+      "type": "Réseau / Sécurité",
+      "pourquoi": "Sécuriser et segmenter les accès invités dans un réseau d’entreprise.",
+      "descriptionCourte": "Déploiement d’un portail captif pfSense avec VLAN, filtrage et authentification.",
+      "descriptionLongue": "Lors d’un stage technique, j’ai déployé pfSense pour sécuriser les accès invités. J’ai configuré le pare-feu, créé des VLAN pour isoler le trafic, mis en place un portail captif personnalisé, intégré une base d’utilisateurs ou un serveur RADIUS, et configuré des limitations de bande passante. Ce projet m’a permis de maîtriser les concepts de segmentation réseau et de contrôle d’accès.",
+      "resultats": [
+        "Accès invités isolés et sécurisés",
+        "Portail captif personnalisé",
+        "Filtrage web et quotas",
+        "Conformité aux politiques de sécurité"
+      ],
+      "technologies": ["pfSense", "VLAN", "Firewall", "RADIUS"],
+      "competences": ["NAC", "Segmentation réseau", "Firewalling"],
+      "impressions": 1400,
+      "image": "pfsense.png",
+      "images": ["pfsense.png"]
+    },
+
+    {
+      "id": "hyperv",
+      "titre": "Cluster Hyper‑V Multi‑Sites",
+      "date": "2025",
+      "type": "Virtualisation / Haute disponibilité",
+      "pourquoi": "Garantir la continuité de service et éliminer les points de défaillance uniques.",
+      "descriptionCourte": "Conception et déploiement d’un cluster Hyper‑V réparti sur plusieurs sites.",
+      "descriptionLongue": "J’ai conçu et déployé un cluster Hyper‑V multi‑sites pour assurer la haute disponibilité des services critiques. J’ai configuré la réplication, le basculement automatique, la gestion du stockage, la publication d’applications et l’intégration dans un système de supervision. Ce projet a transformé une infrastructure isolée en une architecture robuste et scalable.",
+      "resultats": [
+        "Haute disponibilité 24/7",
+        "Élimination des SPOF",
+        "Réplication inter‑sites",
+        "Performance améliorée pour les utilisateurs distants"
+      ],
+      "technologies": ["Hyper‑V", "Cluster", "SAN/NAS", "Windows Server"],
+      "competences": ["Virtualisation", "HA", "Architecture système"],
+      "impressions": 2100,
+      "image": "hyperv.png",
+      "images": ["hyperv.png"]
+    },
+
+    {
+      "id": "xenserver",
+      "titre": "Virtualisation Bare Metal avec XenServer",
+      "date": "2021",
+      "type": "Virtualisation",
+      "pourquoi": "Maîtriser une solution de virtualisation de type 1.",
+      "descriptionCourte": "Déploiement de XenServer sur serveur physique avec gestion via XenCenter.",
+      "descriptionLongue": "Dans un environnement de test, j’ai déployé XenServer sur un serveur physique afin d’explorer les hyperviseurs Bare Metal. J’ai configuré XenCenter, les templates, les réseaux virtuels, les dépôts de stockage et les XenTools. Ce projet m’a permis d’acquérir une expertise pratique sur une solution alternative à Hyper‑V et VMware.",
+      "resultats": [
+        "Hyperviseur Bare Metal opérationnel",
+        "Gestion centralisée via XenCenter",
+        "Optimisation mémoire (DMC)",
+        "Création de templates VM"
+      ],
+      "technologies": ["XenServer", "XenCenter", "Virtualisation"],
+      "competences": ["Hyperviseur", "Gestion VM", "Stockage virtuel"],
+      "impressions": 1200,
+      "image": "xenserver.png",
+      "images": ["xenserver.png"]
+    },
+
+    {
+      "id": "prtg",
+      "titre": "Cluster de Supervision PRTG",
+      "date": "2024",
+      "type": "Supervision / HA",
+      "pourquoi": "Assurer une surveillance continue sans interruption.",
+      "descriptionCourte": "Mise en place d’un cluster PRTG Active/Passive avec réplication en temps réel.",
+      "descriptionLongue": "Pour garantir la continuité de la supervision, j’ai déployé un cluster PRTG en mode Active/Passive. J’ai analysé l’existant, configuré le second nœud, mis en place la réplication des capteurs et testé les scénarios de basculement. Ce projet a permis d’atteindre une disponibilité de 99,9% pour la supervision.",
+      "resultats": [
+        "Supervision haute disponibilité",
+        "Réplication en temps réel",
+        "Basculement automatique validé",
+        "Disponibilité portée à 99,9%"
+      ],
+      "technologies": ["PRTG", "Failover", "Windows Server"],
+      "competences": ["Supervision", "HA", "Administration système"],
+      "impressions": 1750,
+      "image": "prtg.png",
+      "images": ["prtg.png"]
+    },
+
+    {
+      "id": "glpi",
+      "titre": "Refonte Critique de GLPI",
+      "date": "2025",
+      "type": "ITSM",
+      "pourquoi": "Passer d’une installation basique à une implémentation professionnelle.",
+      "descriptionCourte": "Refonte complète de GLPI avec intégration AD, optimisation LAMP et synchronisation LDAP.",
+      "descriptionLongue": "J’ai entièrement refondu un déploiement GLPI initialement basique. J’ai recommencé le projet en mode reverse engineering pour comprendre chaque couche : Debian 12, Apache, MariaDB, PHP, intégration AD DS, synchronisation LDAP sécurisée, gestion des entités et optimisation de la base. Ce projet marque ma transition d’étudiant à administrateur confirmé.",
+      "resultats": [
+        "Architecture GLPI professionnelle",
+        "Intégration AD avancée",
+        "Optimisation LAMP",
+        "Documentation complète"
+      ],
+      "technologies": ["GLPI", "Debian", "Apache", "MariaDB", "PHP", "AD DS"],
+      "competences": ["ITSM", "Linux", "AD", "Reverse Engineering"],
+      "impressions": 2600,
+      "image": "glpi.png",
+      "images": ["glpi.png"]
+    },
+
+    {
+      "id": "wsus",
+      "titre": "Système centralisé de mises à jour WSUS",
+      "date": "2025",
+      "type": "Infrastructure Windows",
+      "pourquoi": "Centraliser et automatiser la gestion des correctifs Windows.",
+      "descriptionCourte": "Déploiement de WSUS avec ciblage GPO, approbations et reporting.",
+      "descriptionLongue": "J’ai déployé WSUS pour centraliser la gestion des mises à jour Windows. J’ai configuré le rôle, créé des GPO pour diriger les postes vers WSUS, mis en place un workflow d’approbation par groupes Test/Prod, optimisé la bande passante et configuré le reporting. Ce projet a permis d’obtenir un parc homogène et sécurisé.",
+      "resultats": [
+        "Parc homogène et à jour",
+        "Réduction de la bande passante",
+        "Workflow d’approbation",
+        "Reporting de conformité"
+      ],
+      "technologies": ["WSUS", "GPO", "Windows Server"],
+      "competences": ["Administration Windows", "Automatisation", "Gestion de parc"],
+      "impressions": 1900,
+      "image": "wsus.png",
+      "images": ["wsus.png"]
+    },
+
+    {
+      "id": "supervision",
+      "titre": "Étude comparative : Nagios, Centreon, Zabbix",
+      "date": "2023-2025",
+      "type": "Supervision",
+      "pourquoi": "Comparer plusieurs solutions open-source pour recommander la plus adaptée.",
+      "descriptionCourte": "Banc d’essai complet des solutions Nagios, Centreon et Zabbix.",
+      "descriptionLongue": "J’ai réalisé une étude comparative approfondie des solutions de supervision Nagios, Centreon et Zabbix. J’ai installé chaque solution, configuré les agents, testé l’auto‑découverte, les dashboards, les alertes et la scalabilité. Ce projet m’a permis de comprendre les forces et limites de chaque outil et d’être capable de recommander une solution adaptée à un contexte donné.",
+      "resultats": [
+        "Maîtrise des protocoles SNMP et agents",
+        "Comparatif complet des solutions",
+        "Dashboards et alertes configurés",
+        "Recommandation argumentée"
+      ],
+      "technologies": ["Nagios", "Centreon", "Zabbix", "SNMP"],
+      "competences": ["Supervision", "Analyse technique", "Monitoring"],
+      "impressions": 1500,
+      "image": "supervision.png",
+      "images": ["supervision.png"]
+    },
+
+    {
+      "id": "postfix",
+      "titre": "Messagerie interne sécurisée avec Postfix",
+      "date": "2021",
+      "type": "Infrastructure Linux",
+      "pourquoi": "Créer une messagerie interne autonome et sécurisée.",
+      "descriptionCourte": "Déploiement d’un serveur SMTP interne avec Postfix et TLS.",
+      "descriptionLongue": "J’ai déployé une solution de messagerie interne basée sur Postfix. J’ai configuré le serveur SMTP, les enregistrements DNS locaux, le chiffrement TLS, l’authentification via base d’utilisateurs ou LDAP, et réalisé des tests de délivrabilité. Ce projet m’a permis de comprendre les mécanismes internes d’un serveur mail.",
+      "resultats": [
+        "Messagerie interne autonome",
+        "Chiffrement TLS",
+        "Authentification sécurisée",
+        "Tests de délivrabilité validés"
+      ],
+      "technologies": ["Postfix", "Linux", "TLS", "DNS"],
+      "competences": ["Administration Linux", "SMTP", "Sécurité mail"],
+      "impressions": 1100,
+      "image": "postfix.png",
+      "images": ["postfix.png"]
+    },
+
+    {
+      "id": "glpi-ansible",
+      "titre": "Automatisation du déploiement GLPI avec Docker & Ansible",
+      "date": "2025",
+      "type": "Automatisation / DevOps",
+      "pourquoi": "Standardiser et automatiser le déploiement d’un service GLPI conteneurisé avec sauvegardes automatisées.",
+      "descriptionCourte": "Playbook Ansible complet pour déployer GLPI + MariaDB sous Docker avec sauvegardes automatisées.",
+      "descriptionLongue": "Ce projet vise à automatiser entièrement le déploiement d’un service GLPI conteneurisé via Ansible. Le playbook installe Docker, prépare la machine cible, configure les clés SSH, déploie les conteneurs GLPI et MariaDB, crée les volumes persistants et installe un script de sauvegarde automatisé.",
+      "resultats": [
+        "Déploiement reproductible en quelques minutes",
+        "Sauvegardes automatisées et sécurisées",
+        "Standardisation des environnements",
+        "Réduction des erreurs humaines"
+      ],
+      "technologies": ["Ansible", "Docker", "GLPI", "MariaDB", "Linux"],
+      "competences": ["Automatisation", "DevOps", "Conteneurisation"],
+      "impressions": 0,
+      "image": "glpi-ansible.png",
+      "images": ["glpi-ansible2.png"]
+    },
+
+    {
+      "id": "mdt-wds",
+      "titre": "Infrastructure de déploiement Windows MDT / WDS",
+      "date": "2024",
+      "type": "Infrastructure Windows",
+      "pourquoi": "Automatiser le déploiement d’images Windows pour gagner en efficacité et standardiser le parc.",
+      "descriptionCourte": "Mise en place d’une infrastructure MDT/WDS pour déploiement automatisé via PXE.",
+      "descriptionLongue": "Ce projet consiste à déployer une infrastructure MDT/WDS complète permettant l’installation automatisée de postes Windows. Il inclut l’installation de WDS, la configuration de MDT, la création d’images personnalisées, l’intégration des drivers, la création de séquences de tâches et le déploiement via PXE.",
+      "resultats": [
+        "Déploiement rapide et homogène",
+        "Standardisation du parc",
+        "Réduction du temps d'installation",
+        "Gestion centralisée des images"
+      ],
+      "technologies": ["MDT", "WDS", "Windows Server", "PXE"],
+      "competences": ["Automatisation", "Déploiement Windows", "GPO"],
+      "impressions": 0,
+      "image": "mdt-wds.png",
+      "images": ["mdt-wds2.png"]
+    },
+
+      {
+      "id": "identite-avancee",
+      "titre": "Identité avancée : Confidentialité & Chiffrement",
+      "date": "2024",
+      "type": "Cybersécurité",
+      "pourquoi": "Comprendre les piliers de la sécurité et maîtriser le chiffrement asymétrique.",
+      "descriptionCourte": "Mise en pratique de la confidentialité, génération de clés OpenSSL et chiffrement asymétrique.",
+      "descriptionLongue": "Ce projet explore les fondements de la sécurité : confidentialité, intégrité et disponibilité. J’ai étudié des cas concrets comme la transmission sécurisée de documents, puis généré des paires de clés asymétriques via OpenSSL. J’ai réalisé des opérations de chiffrement, déchiffrement et signature numérique.",
+      "resultats": [
+        "Maîtrise du chiffrement asymétrique",
+        "Compréhension des piliers de la sécurité",
+        "Génération et gestion de clés OpenSSL",
+        "Cas pratiques appliqués"
+      ],
+      "technologies": ["OpenSSL", "Linux", "Cryptographie"],
+      "competences": ["Sécurité", "Chiffrement", "PKI"],
+      "impressions": 0,
+      "image": "identite-avancee.png",
+      "images": ["identite-avancee2.png"]
+    },
+
+    {
+      "id": "kerberos",
+      "titre": "Mise en place d’un environnement Kerberos",
+      "date": "2024",
+      "type": "Sécurité / Authentification",
+      "pourquoi": "Comprendre le fonctionnement interne de Kerberos et son rôle dans l’authentification AD.",
+      "descriptionCourte": "Déploiement d’un environnement Kerberos avec génération de clés et tests d’authentification.",
+      "descriptionLongue": "Ce projet consiste à mettre en place un environnement Kerberos complet. J’ai généré des clés asymétriques, configuré un KDC, créé des principaux, analysé les tickets TGT/TGS et réalisé des tests d’authentification.",
+      "resultats": [
+        "Environnement Kerberos fonctionnel",
+        "Compréhension des tickets TGT/TGS",
+        "Tests d’authentification réussis",
+        "Maîtrise des mécanismes internes"
+      ],
+      "technologies": ["Kerberos", "Linux", "OpenSSL"],
+      "competences": ["Authentification", "Sécurité", "AD DS"],
+      "impressions": 0,
+      "image": "kerberos.png",
+      "images": ["kerberos2.png"]
+    },
+
+    {
+      "id": "haute-disponibilite",
+      "titre": "Haute disponibilité : Cluster Hyper‑V & IIS/WordPress",
+      "date": "2025",
+      "type": "Infrastructure / HA",
+      "pourquoi": "Garantir la continuité de service et héberger un site web résilient.",
+      "descriptionCourte": "Cluster Hyper‑V avec réplication + installation IIS, PHP, MySQL et WordPress.",
+      "descriptionLongue": "Ce projet met en place une infrastructure haute disponibilité basée sur Hyper‑V. J’ai configuré un cluster, activé la réplication, installé IIS, PHP, MySQL et déployé WordPress.",
+      "resultats": [
+        "Cluster Hyper‑V opérationnel",
+        "Réplication fonctionnelle",
+        "Site WordPress hébergé sous IIS",
+        "Documentation complète"
+      ],
+      "technologies": ["Hyper‑V", "IIS", "WordPress", "Windows Server"],
+      "competences": ["HA", "Virtualisation", "Web"],
+      "impressions": 0,
+      "image": "haute-disponibilite.png",
+      "images": ["haute-disponibilite2.png"]
+    },
+
+    {
+      "id": "preconfig-deploiement",
+      "titre": "Déploiement pré‑configuré automatisé (PowerShell)",
+      "date": "2025",
+      "type": "Automatisation / Windows",
+      "pourquoi": "Automatiser la création et la configuration d’un environnement Windows Server complet.",
+      "descriptionCourte": "Script PowerShell pour déployer VM, AD, DHCP, firewall et jonction au domaine.",
+      "descriptionLongue": "Ce projet consiste à automatiser le déploiement d’un environnement Windows Server via PowerShell. Le script crée des disques de différenciation, déploie des machines virtuelles, configure les cartes réseau, applique les règles firewall, installe Active Directory, configure DHCP et ajoute automatiquement les machines au domaine.",
+      "resultats": [
+        "Déploiement automatisé complet",
+        "Standardisation des environnements",
+        "Gain de temps significatif",
+        "Réduction des erreurs humaines"
+      ],
+      "technologies": ["PowerShell", "Hyper‑V", "AD DS", "DHCP"],
+      "competences": ["Automatisation", "Windows Server", "Scripting"],
+      "impressions": 0,
+      "image": "preconfig.png",
+      "images": ["preconfig2.png"]
+    },
+
+    {
+      "id": "wazuh-lab",
+      "titre": "Lab Wazuh complet : Docker, machines vulnérables & attaque",
+      "date": "2025",
+      "type": "Cybersécurité / SOC",
+      "pourquoi": "Créer un environnement complet pour analyser des attaques et la détection Wazuh.",
+      "descriptionCourte": "Lab Wazuh avec Docker, machines vulnérables, machine d’attaque et analyse d’intrusions.",
+      "descriptionLongue": "Ce projet consiste à monter un lab complet Wazuh sous Docker, accompagné de machines clientes vulnérables (DVWA, Metasploitable) et d’une machine d’attaque (Kali). J’ai réalisé des attaques réelles, analysé les alertes Wazuh, étudié la corrélation d’événements et mis en place une logique de détection avancée.",
+      "resultats": [
+        "Lab complet opérationnel",
+        "Détection d’intrusions en temps réel",
+        "Analyse d’attaques réelles",
+        "Compréhension SOC avancée"
+      ],
+      "technologies": ["Wazuh", "Docker", "Kali", "Linux"],
+      "competences": ["SOC", "Détection", "Analyse d’attaques"],
+      "impressions": 0,
+      "image": "wazuh-lab.png",
+      "images": ["wazuh-lab2.png"]
+    },
+
+    {
+      "id": "ntlm-migration",
+      "titre": "Migration NTLM v1 → NTLM v4",
+      "date": "2025",
+      "type": "Sécurité Windows",
+      "pourquoi": "Renforcer la sécurité d’authentification en entreprise.",
+      "descriptionCourte": "Migration complète de NTLM v1 vers NTLM v4 avec audit et tests de compatibilité.",
+      "descriptionLongue": "Ce projet consiste à migrer l’authentification NTLM v1, obsolète et vulnérable, vers NTLM v4. J’ai réalisé un audit complet, identifié les systèmes dépendants, testé la compatibilité, appliqué les stratégies de sécurité et validé la migration.",
+      "resultats": [
+        "Sécurité d’authentification renforcée",
+        "Élimination de NTLM v1",
+        "Compatibilité validée",
+        "Conformité accrue"
+      ],
+      "technologies": ["Windows Server", "NTLM", "GPO"],
+      "competences": ["Sécurité Windows", "Audit", "Durcissement"],
+      "impressions": 0,
+      "image": "ntlm.png",
+      "images": ["ntlm2.png"]
+    },
+
+    {
+      "id": "guacamole",
+      "titre": "Accès distant sécurisé avec Apache Guacamole",
+      "date": "2025",
+      "type": "Infrastructure / Sécurité",
+      "pourquoi": "Fournir un accès distant sécurisé sans client RDP/SSH.",
+      "descriptionCourte": "Déploiement d’Apache Guacamole avec accès RDP/SSH via navigateur.",
+      "descriptionLongue": "Ce projet consiste à déployer Apache Guacamole pour offrir un accès distant sécurisé via navigateur. J’ai configuré le serveur, intégré les connexions RDP/SSH, mis en place un reverse proxy, sécurisé les accès et documenté l’ensemble.",
+      "resultats": [
+        "Accès distant sécurisé",
+        "Aucun client nécessaire",
+        "Reverse proxy configuré",
+        "Administration centralisée"
+      ],
+      "technologies": ["Guacamole", "Linux", "Reverse Proxy"],
+      "competences": ["Accès distant", "Sécurité", "Administration système"],
+      "impressions": 0,
+      "image": "guacamole.png",
+      "images": ["guacamole2.png"]
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mes Projets – Ivan Tonfack</title>
+
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+
+<body class="page">
+
+<!-- HEADER -->
+<header id="header">
+    <div class="container">
+        <nav class="nav">
+            <div class="logo">IVAN TONFACK</div>
+
+            <div class="nav-toggle" id="nav-toggle">
+                <span></span><span></span><span></span>
+            </div>
+
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="about.html">À propos</a></li>
+                <li><a href="skills.html">Compétences</a></li>
+                <li><a href="projects.html" class="active">Projets</a></li>
+                <li><a href="experience.html">Expérience</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<!-- SECTION PROJETS -->
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">Mes projets</h2>
+        <p class="section-subtitle">Tous mes projets techniques, classés et documentés</p>
+
+        <!-- Grille dynamique -->
+        <div id="projects-grid" class="projects-grid"></div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="section">
+    <div class="container">
+        <p class="text-muted">© 2026 – Portfolio d’Ivan Tonfack. Tous droits réservés.</p>
+    </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+<script src="assets/js/projects.js"></script>
+
+</body>
+</html>

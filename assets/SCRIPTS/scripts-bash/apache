@@ -1,0 +1,84 @@
+#!/bin/bash
+
+# Chemin de l'image source
+image_source="/home/lacasta/Documents/images/th.jpg"
+# Chemin de destination
+destination="/var/www/html/th.jpg"
+
+# Vérifier si l'image source existe
+if [ ! -f "$image_source" ]; then
+    echo -e "\e[31mL'image th.jpg n'existe pas dans le répertoire /home/lacasta/Documents/images.\e[0m"
+    exit 1
+fi
+
+# Copier l'image vers le répertoire /var/www/html/
+sudo cp "$image_source" "$destination"
+
+# Vérifier si le serveur Apache2 est installé
+if dpkg -l | grep -q "ii  apache2"; then
+    echo -e "\e[33mLe serveur Apache2 est déjà installé.\e[0m"
+    apache_installed=true
+else
+    echo -e "\e[31mLe serveur Apache2 n'est pas installé.\e[0m"
+    read -p "Voulez-vous l'installer ? (o/n) " install_choice
+    if [ "$install_choice" == "o" ]; then
+        sudo apt update
+        sudo apt install apache2 -y
+        apache_installed=true
+    else
+        echo -e "\e[31mLe serveur Apache2 n'est pas installé. Impossible de configurer un service non installé.\e[0m"
+        exit 1
+    fi
+fi
+
+# Vérifier si la configuration existante doit être écrasée
+if [ -f "/etc/apache2/sites-available/000-default.conf" ]; then
+    echo -e "\e[33mUne configuration Apache2 existante a été détectée.\e[0m"
+    read -p "Voulez-vous écraser la configuration actuelle ? (o/n) " config_choice
+    if [ "$config_choice" == "o" ]; then
+        sudo rm /etc/apache2/sites-available/000-default.conf
+        echo -e "\e[32mLa configuration existante a été écrasée.\e[0m"
+    else
+        echo -e "\e[31mLa configuration actuelle n'a pas été modifiée.\e[0m"
+    fi
+fi
+
+# Configuration d'Apache2 si installé
+if [ "$apache_installed" == true ]; then
+    echo -e "\e[33mConfiguration du serveur Apache2...\e[0m"
+    
+    # Renommer le serveur en srv
+    sudo hostnamectl set-hostname srv
+
+    # Configuration des fichiers
+    sudo chmod -R 777 /var/www/html
+    sudo chown -R www-data:www-data /var/www/html
+
+    # Configuration du VirtualHost pour servir th.jpg
+    cat <<EOF | sudo tee /etc/apache2/sites-available/000-default.conf >/dev/null
+<VirtualHost *:80>
+    ServerAdmin webmaster@localhost
+    DocumentRoot /var/www/html
+    ErrorLog \${APACHE_LOG_DIR}/error.log
+    CustomLog \${APACHE_LOG_DIR}/access.log combined
+
+    <Directory /var/www/html>
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride All
+        Order allow,deny
+        allow from all
+        Require all granted
+    </Directory>
+
+    DirectoryIndex th.jpg
+</VirtualHost>
+EOF
+
+    # Activer le site
+    sudo a2ensite 000-default.conf
+
+    # Redémarrer Apache
+    sudo systemctl restart apache2
+
+    echo -e "\e[32mConfiguration terminée. Le serveur Apache2 est maintenant accessible à l'adresse IP de votre serveur, affichant l'image th.jpg.\e[0m"
+fi

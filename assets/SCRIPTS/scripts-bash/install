@@ -1,0 +1,145 @@
+#!/bin/bash
+
+# Fonction pour afficher en vert
+print_green() {
+    echo -e "\e[32m$1\e[0m"
+}
+
+# Fonction pour afficher en orange
+print_orange() {
+    echo -e "\e[33m$1\e[0m"
+}
+
+# Fonction pour afficher en rouge
+print_red() {
+    echo -e "\e[31m$1\e[0m"
+}
+
+# Fonction pour afficher en bleu
+print_blue() {
+    echo -e "\e[34m$1\e[0m"
+}
+
+# Fonction pour afficher le menu des services
+show_service_menu() {
+    echo "Menu des services :"
+    echo "1. $(print_blue "NETXCLOUD")"
+    echo "2. $(print_blue "GLPI")"
+    echo "3. $(print_blue "ACTIVE DIRECTORY")"
+    echo "4. $(print_blue "GUACAMOLE")"
+    echo "5. $(print_blue "Samba 4")"
+    echo "6. $(print_blue "VPN (Wireguard)")"
+}
+
+# Fonction pour installer un service spécifique
+install_service() {
+    read -p "Entrez le numéro du service que vous souhaitez installer : " service_choice
+    case $service_choice in
+        1) check_and_install_package "netxcloud" ;;
+        2) check_and_install_package "glpi" ;;
+        3) check_and_install_package "active-directory" ;;
+        4) check_and_install_package "guacamole" ;;
+        5) check_and_install_package "samba4" ;;
+        6) check_and_install_package "wireguard" ;;
+        *) print_orange "Choix invalide." ;;
+    esac
+}
+
+# Fonction pour installer un paquet spécifique
+check_and_install_package() {
+    package_name=$1
+    if dpkg -s $package_name &> /dev/null; then
+        print_orange "$package_name est déjà installé."
+        read -p "Voulez-vous le réinstaller ? (o/n): " reinstall_choice
+        if [ "$reinstall_choice" = "o" ]; then
+            print_orange "Réinstallation de $package_name en cours..."
+            sudo apt install --reinstall -y $package_name
+            if [ $? -eq 0 ]; then
+                print_green "Réinstallation de $package_name effectuée avec succès."
+            else
+                print_red "Échec de la réinstallation de $package_name."
+            fi
+        else
+            print_orange "Réinstallation de $package_name annulée."
+        fi
+    else
+        install_package $package_name
+    fi
+}
+
+# Fonction pour installer un paquet s'il n'est pas déjà installé
+install_package() {
+    package_name=$1
+    read -p "Voulez-vous installer $package_name ? (o/n): " install_choice
+    if [ "$install_choice" = "o" ]; then
+        print_orange "Installation de $package_name en cours..."
+        sudo apt install -y $package_name
+        if [ $? -eq 0 ]; then
+            print_green "Installation de $package_name effectuée avec succès."
+        else
+            print_red "Échec de l'installation de $package_name."
+        fi
+    else
+        print_orange "Installation de $package_name annulée."
+    fi
+}
+
+# Fonction pour effectuer les mises à jour du système
+update_system() {
+    read -p "Voulez-vous effectuer les mises à jour ? (o/n): " update_choice
+    if [ "$update_choice" = "o" ]; then
+        print_orange "Mise à jour du système en cours..."
+        sudo apt update && sudo apt upgrade -y
+        if [ $? -eq 0 ]; then
+            print_green "Mises à jour effectuées avec succès."
+        else
+            print_red "Échec des mises à jour."
+        fi
+    else
+        print_orange "Mises à jour non effectuées."
+    fi
+}
+
+# Boucle principale du script
+while true; do
+    # Installer les mises à jour si demandé
+    update_system
+
+    # Installer les différents paquets
+    check_and_install_package "bind9"
+    check_and_install_package "isc-dhcp-server"
+    check_and_install_package "apache2"
+    check_and_install_package "nginx"
+    check_and_install_package "openssh-server"
+
+    # Liste des rôles installés
+    installed_roles=()
+
+    # Proposer d'installer d'autres services
+    while true; do
+        read -p "Voulez-vous installer d'autres services ? (o/n): " more_services_choice
+        if [ "$more_services_choice" = "o" ]; then
+            show_service_menu
+            install_service
+        else
+            break
+        fi
+    done
+
+    # Afficher les rôles installés
+    if [ ${#installed_roles[@]} -ne 0 ]; then
+        echo "Les rôles installés sont :"
+        for role in "${installed_roles[@]}"; do
+            print_green "- $role"
+        done
+    else
+        echo "Aucun rôle n'a été installé."
+    fi
+
+    # Proposer de continuer le programme
+    read -p "Merci, vous avez terminé l'installation de vos services. Voulez-vous continuer ? (o/n): " continue_choice
+    if [ "$continue_choice" = "n" ]; then
+        print_orange "Merci et au revoir !"
+        exit 0
+    fi
+done

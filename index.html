@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ivan Tonfack – Administrateur Systèmes</title>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- Typographies -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+</head>
+
+<body class="page">
+
+    <!-- ===========================
+         HEADER
+    ============================ -->
+    <header id="header">
+        <div class="container">
+            <nav class="nav">
+                <div class="logo">IVAN TONFACK</div>
+
+                <div class="nav-toggle" id="nav-toggle">
+                    <span></span><span></span><span></span>
+                </div>
+
+                <ul class="nav-links" id="nav-links">
+                    <li><a href="index.html" class="active">Accueil</a></li>
+                    <li><a href="about.html">À propos</a></li>
+                    <li><a href="skills.html">Compétences</a></li>
+                    <li><a href="projects.html">Projets</a></li>
+                    <li><a href="experience.html">Expérience</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ===========================
+         HERO SECTION
+    ============================ -->
+    <section class="section hero">
+        <div class="container hero-grid">
+
+            <div class="hero-content">
+                <h1 class="hero-title">Bonjour, moi c’est <span class="text-accent">Ivan Tonfack</span></h1>
+                <p class="hero-subtitle">
+                    Administrateur Systèmes – Alternance à la Société du Canal de Provence (SCP)
+                </p>
+
+                <div class="hero-buttons mt-3">
+                    <a href="#" class="btn btn-primary">Télécharger mon CV</a>
+                    <a href="projects.html" class="btn btn-ghost">Voir mes projets</a>
+                </div>
+            </div>
+
+            <div class="hero-photo">
+                <img src="assets/img/portraits/ivan.jpeg" alt="Photo de Ivan Tonfack">
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ===========================
+         SECTION APERÇU
+    ============================ -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Aperçu</h2>
+            <p class="section-subtitle">Quelques chiffres clés sur mon parcours et mes projets</p>
+
+            <div class="stats-grid">
+
+                <div class="section-card">
+                    <h3 class="code-text" id="projects-count">+0</h3>
+                    <p>Projets documentés</p>
+                </div>
+
+                <div class="section-card">
+                    <h3 class="code-text" id="linkedin-count">+0</h3>
+                    <p>Impressions LinkedIn</p>
+                </div>
+
+                <div class="section-card">
+                <h3 class="code-text" id="scripts-count">+0</h3>
+                <p>Scripts PowerShell</p>
+
+                <a href="scripts.html" class="btn btn-primary btn-full">Voir tous les scripts</a>
+                 </div>
+
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ===========================
+         SECTION : DERNIERS PROJETS
+    ============================ -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Derniers projets</h2>
+            <p class="section-subtitle">Un aperçu de mes réalisations récentes</p>
+
+            <div id="latest-projects" class="projects-grid"></div>
+
+            <div class="center mt-4">
+                <a href="projects.html" class="btn btn-primary">Voir tous les projets</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===========================
+         FOOTER
+    ============================ -->
+    <footer class="section">
+        <div class="container">
+            <p class="text-muted">© 2026 – Portfolio d’Ivan Tonfack. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/latest-projects.js"></script>
+    <script src="assets/js/stats.js"></script>
+</body>
+</html>

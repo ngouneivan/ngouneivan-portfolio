@@ -1,0 +1,123 @@
+{
+  "scripts": [
+    {
+  "id": "bash-admin",
+  "nom": "Administration système",
+  "categorie": "bash",
+  "description": "Script Bash regroupant des commandes d’administration système.",
+  "fichier": "assets/SCRIPTS/scripts-bash/admin/admin.sh",
+  "type": "bash",
+  "technologies": ["Bash", "Linux"]
+    },
+    {
+      "id": "bash-apache",
+      "nom": "Configuration Apache",
+      "categorie": "bash",
+      "description": "Script Bash pour configurer et gérer un serveur Apache.",
+      "fichier": "assets/SCRIPTS/scripts-bash/apache",
+      "type": "bash",
+      "technologies": ["Bash", "Apache"]
+    },
+    {
+      "id": "bash-conf",
+      "nom": "Configuration système",
+      "categorie": "bash",
+      "description": "Script Bash pour automatiser des configurations système.",
+      "fichier": "assets/SCRIPTS/scripts-bash/conf",
+      "type": "bash",
+      "technologies": ["Bash", "Linux"]
+    },
+    {
+      "id": "bash-dhcp",
+      "nom": "Configuration DHCP",
+      "categorie": "bash",
+      "description": "Script Bash pour configurer un serveur DHCP.",
+      "fichier": "assets/SCRIPTS/scripts-bash/dhcp",
+      "type": "bash",
+      "technologies": ["Bash", "DHCP"]
+    },
+    {
+      "id": "bash-install",
+      "nom": "Scripts d’installation",
+      "categorie": "bash",
+      "description": "Script Bash pour automatiser l’installation de services.",
+      "fichier": "assets/SCRIPTS/scripts-bash/install",
+      "type": "bash",
+      "technologies": ["Bash", "Automatisation"]
+    },
+    {
+      "id": "bash-ssh",
+      "nom": "Scripts SSH",
+      "categorie": "bash",
+      "description": "Script Bash pour gérer SSH et l’accès distant.",
+      "fichier": "assets/SCRIPTS/scripts-bash/ssh",
+      "type": "bash",
+      "technologies": ["Bash", "SSH"]
+    },
+    {
+      "id": "bash-user",
+      "nom": "Gestion des utilisateurs",
+      "categorie": "bash",
+      "description": "Script Bash pour gérer les utilisateurs Linux.",
+      "fichier": "assets/SCRIPTS/scripts-bash/user",
+      "type": "bash",
+      "technologies": ["Bash", "Linux"]
+    },
+
+    {
+      "id": "ps-vms-adds",
+      "nom": "Déploiement VMs ADDS + DNS",
+      "categorie": "powershell",
+      "description": "Script PowerShell pour configurer des VMs avec ADDS, IP et DNS.",
+      "fichier": "assets/SCRIPTS/scripts-powershell/VMS-ADDS-IP-DNS-SUR-2-SERVEURS-DNS-OK-PING-OK.ps1",
+      "type": "powershell",
+      "technologies": ["PowerShell", "Windows Server", "AD DS", "DNS"]
+    },
+
+    {
+      "id": "txt-ntp",
+      "nom": "Installation & configuration NTP",
+      "categorie": "txt",
+      "description": "Procédure d’installation et configuration d’un service NTP.",
+      "fichier": "assets/SCRIPTS/scripts-txt/installation et config ntp.txt",
+      "type": "txt",
+      "technologies": ["NTP", "Linux"]
+    },
+    {
+      "id": "txt-backup",
+      "nom": "Script de sauvegarde",
+      "categorie": "txt",
+      "description": "Procédure ou script de sauvegarde.",
+      "fichier": "assets/SCRIPTS/scripts-txt/SCRIPT_BACKUP.txt",
+      "type": "txt",
+      "technologies": ["Backup"]
+    },
+    {
+      "id": "txt-docker",
+      "nom": "Déploiement Docker",
+      "categorie": "txt",
+      "description": "Script documenté pour déployer Docker.",
+      "fichier": "assets/SCRIPTS/scripts-txt/script_deploiement_docker.txt",
+      "type": "txt",
+      "technologies": ["Docker"]
+    },
+    {
+      "id": "txt-glpi",
+      "nom": "Script GLPI",
+      "categorie": "txt",
+      "description": "Procédure d’installation ou configuration GLPI.",
+      "fichier": "assets/SCRIPTS/scripts-txt/SCRIPT_GLPI.txt",
+      "type": "txt",
+      "technologies": ["GLPI"]
+    },
+    {
+      "id": "txt-maria",
+      "nom": "Script MariaDB",
+      "categorie": "txt",
+      "description": "Procédure ou script pour MariaDB.",
+      "fichier": "assets/SCRIPTS/scripts-txt/SCRIPT_MARIA_BDD.txt",
+      "type": "txt",
+      "technologies": ["MariaDB"]
+    }
+  ]
+}

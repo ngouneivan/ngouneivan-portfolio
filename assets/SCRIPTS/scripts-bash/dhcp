@@ -1,0 +1,192 @@
+#!/bin/bash
+
+# Fonction pour afficher en vert
+print_green() {
+    echo -e "\e[32m$1\e[0m"
+}
+
+# Fonction pour afficher en orange
+print_orange() {
+    echo -e "\e[33m$1\e[0m"
+}
+
+# Fonction pour afficher en rouge
+print_red() {
+    echo -e "\e[31m$1\e[0m"
+}
+
+# Fonction pour poser une question avec un choix (o/n) en orange
+ask_question_with_choice() {
+    local question="$1"
+    echo -e "$(tput setaf 3)$question$(tput sgr0)$(tput setaf 202)o$(tput sgr0)/$(tput setaf 202)n$(tput sgr0)"
+}
+
+# Fonction pour vérifier la configuration DHCP ou statique
+check_network_configuration() {
+    local card="$1"
+    local configuration=$(ip addr show dev "$card")
+    # Vérifier si la carte est configurée en DHCP ou statique
+    if echo "$configuration" | grep -q "inet .* dynamic"; then
+        print_orange "Votre carte $card est configurée en DHCP."
+        # Proposer de passer à la configuration statique
+        while true; do
+            ask_question_with_choice "Voulez-vous passer à la configuration statique ? (o/n): "
+            read choice
+            if [ "$choice" = "o" ]; then
+                configure_static "$card"
+                break
+            elif [ "$choice" = "n" ]; then
+                print_red "Désolé, vous devez avoir une adresse IP statique pour configurer le DHCP."
+                break
+            else
+                print_red "Veuillez répondre par 'o' pour oui ou 'n' pour non."
+            fi
+        done
+    else
+        print_orange "Votre carte $card est configurée en statique."
+    fi
+}
+
+# Fonction pour configurer une adresse IP statique
+configure_static() {
+    local card="$1"
+    print_orange "Passage à la configuration statique pour la carte $card."
+    # Exécuter le script de configuration statique
+    /home/lacasta/Documents/scripts/conf
+}
+
+# Fonction pour démarrer la configuration DHCP
+configure_dhcp() {
+    # Vérifier si une configuration DHCP existe déjà
+    if [ -f /etc/dhcp/dhcpd.conf ]; then
+        print_orange "Une configuration DHCP existe déjà :"
+        cat /etc/dhcp/dhcpd.conf
+        ask_question_with_choice "Voulez-vous garder la configuration existante ? (o/n): "
+        read choice
+        if [ "$choice" = "o" ]; then
+            print_orange "Vous avez choisi de garder la configuration actuelle."
+            return
+        elif [ "$choice" = "n" ]; then
+            print_orange "Suppression de la configuration DHCP existante..."
+            rm /etc/dhcp/dhcpd.conf
+            if [ $? -eq 0 ]; then
+                print_green "La configuration DHCP existante a été supprimée avec succès."
+            else
+                print_red "Échec de la suppression de la configuration DHCP existante."
+                return
+            fi
+        fi
+    fi
+
+    # Demander à l'utilisateur de saisir la plage DHCP
+    read -p "Entrez la plage de début (par exemple, 192.168.1.100): " start_range
+    read -p "Entrez la plage de fin (par exemple, 192.168.1.200): " end_range
+    # Demander à l'utilisateur de saisir la passerelle
+    read -p "Entrez l'adresse de la passerelle: " gateway
+    # Demander à l'utilisateur s'il souhaite utiliser le DNS actuel
+    ask_question_with_choice "Voulez-vous utiliser le DNS actuel ? (o/n): "
+    read choice
+    if [ "$choice" = "o" ]; then
+        # Utiliser le DNS actuel
+        dns=$(systemd-resolve --status | grep 'DNS Servers' | awk '{print $3}')
+    else
+        # Demander à l'utilisateur de saisir le DNS
+        read -p "Entrez le serveur DNS : " dns
+    fi
+    # Afficher la plage DHCP configurée, la passerelle et le DNS
+    print_green "La plage DHCP configurée est: $start_range - $end_range"
+    print_green "La passerelle configurée est: $gateway"
+    print_green "Le serveur DNS configuré est: $dns"
+    # Écrire la configuration dans le fichier dhcpd.conf
+    write_dhcp_configuration "$start_range" "$end_range" "$gateway" "$dns"
+    # Redémarrer le service DHCP
+    systemctl restart isc-dhcp-server
+    # Afficher le statut du service DHCP après redémarrage
+    print_orange "Statut du service DHCP après redémarrage :"
+    if systemctl status isc-dhcp-server | grep -q "active (running)"; then
+        print_green "Le service DHCP est actif et en cours d'exécution."
+    else
+        print_red "Le service DHCP n'est pas en cours d'exécution ou a rencontré des erreurs."
+    fi
+}
+
+# Fonction pour écrire la configuration DHCP dans le fichier dhcpd.conf
+write_dhcp_configuration() {
+    local start_range="$1"
+    local end_range="$2"
+    local gateway="$3"
+    local dns="$4"
+    cat > /etc/dhcp/dhcpd.conf <<EOF
+# Configuration DHCP générée automatiquement
+
+subnet $(echo "$gateway" | cut -d '.' -f1-3).0 netmask 255.255.255.0 {
+  range $start_range $end_range;
+  option routers $gateway;
+  option domain-name-servers $dns;
+  option subnet-mask 255.255.255.0;
+  option broadcast-address $(echo "$gateway" | cut -d '.' -f1-3).255;
+  default-lease-time 600;
+  max-lease-time 7200;
+}
+EOF
+}
+
+# Fonction principale du script
+main() {
+    # Vérification des privilèges root
+    if [ "$(id -u)" -ne 0 ]; then
+      print_red "Ce script doit être exécuté en tant que root" >&2
+      exit 1
+    fi
+
+    # Vérification des cartes réseau disponibles
+    network_cards=($(ip link show | grep -o '^[0-9]\+: [a-zA-Z0-9]*:' | cut -d' ' -f2 | tr -d ':'))
+
+    # Compter le nombre de cartes réseau
+    num_cards=${#network_cards[@]}
+
+    # Afficher le nombre de cartes réseau
+    print_orange "Vous avez $num_cards carte(s) réseau."
+
+    # Afficher la liste des cartes réseau disponibles
+    for ((i = 0; i < $num_cards; i++)); do
+        print_orange "$((i + 1)) : ${network_cards[i]}"
+    done
+
+    # Trouver la carte réseau active
+    active_card=$(ip route get 1 | awk 'NR==1{print $5}')
+
+    # Afficher la carte active
+    print_orange "La carte active est: $active_card"
+
+    # Appeler la fonction pour vérifier la configuration de la carte active
+    check_network_configuration "$active_card"
+
+    # Démarrer la configuration DHCP
+    configure_dhcp
+
+    print_green "Configuration du serveur DHCP terminée."
+
+    # Demander à l'utilisateur s'il souhaite continuer
+    ask_to_continue
+}
+
+# Fonction pour demander à l'utilisateur s'il souhaite continuer
+ask_to_continue() {
+    ask_question_with_choice "Souhaitez-vous continuer ? (o/n): "
+    read choice
+    if [ "$choice" = "o" ]; then
+        # Si l'utilisateur choisit 'o' pour oui, recommencer le script
+        main
+    elif [ "$choice" = "n" ]; then
+        # Si l'utilisateur choisit 'n' pour non, afficher un message de sortie et quitter
+        print_green "Merci et au revoir !"
+        exit 0
+    else
+        print_red "Veuillez répondre par 'o' pour oui ou 'n' pour non."
+        ask_to_continue
+    fi
+}
+
+# Appeler la fonction principale
+main

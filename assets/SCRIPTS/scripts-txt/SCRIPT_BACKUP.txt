@@ -1,0 +1,20 @@
+---
+- name: Sauvegarde d’un dossier sur cible2
+  hosts: cible2
+  become: true
+  tasks:
+
+    - name: Créer le dossier de sauvegarde s'il n'existe pas
+      file:
+        path: /home/client1/backups
+        state: directory
+        owner: client1
+        group: client1
+        mode: '0755'
+
+    - name: Sauvegarder et compresser le dossier /var/www/html
+      archive:
+        path: /var/www/html
+        dest: /home/client1/backups/html_backup_{{ ansible_date_time.date }}.tar.gz
+        format: gz
+      tags: backup
