@@ -1,0 +1,46 @@
+---
+- name: Installation d'Apache2
+  apt:
+    name: apache2
+    state: present
+    update_cache: yes
+
+- name: Autoriser le trafic HTTP sur le firewall (UFW)
+  ufw:
+    rule: allow
+    port: '80'
+    proto: tcp
+
+- name: S'assurer qu'Apache est démarré et activé au boot
+  service:
+    name: apache2
+    state: started
+    enabled: yes
+
+- name: Création d'une page d'accueil personnalisée
+  copy:
+    content: "<h1>Bienvenue sur le serveur Web de mon Lab Ansible !</h1><p>Deployé automatiquement sur Ubuntu.</p>"
+    dest: /var/www/html/index.html
+    mode: '0644'
+
+- name: Création d'un script de check de santé
+  copy:
+    dest: /usr/local/bin/check_apache.sh
+    mode: '0755'
+    content: |
+      #!/bin/bash
+      if systemctl is-active --quiet apache2; then
+          echo "$(date): Apache is UP" >> /var/log/apache_health.log
+      else
+          echo "$(date): Apache is DOWN" >> /var/log/apache_health.log
+          systemctl restart apache2
+      fi
+
+- name: Planification de la vérification toutes les 5 minutes (Cron)
+  cron:
+    name: "Check Apache Health"
+    minute: "*/5"
+    job: "/usr/local/bin/check_apache.sh"
+
+- name: Générer un log de déploiement horodaté
+  shell: "logger 'DEPLOIEMENT ANSIBLE : Infrastructure mise à jour le $(date)'"

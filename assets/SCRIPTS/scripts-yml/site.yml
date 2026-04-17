@@ -1,0 +1,18 @@
+---
+- name: Configuration des serveurs Web
+  hosts: web
+  become: yes
+  roles:
+    - apache
+
+- name: Configuration des serveurs Base de Données
+  hosts: db
+  become: yes
+  roles:
+    - mariadb
+
+- name: Configuration des serveurs FTP
+  hosts: ftp
+  become: yes
+  roles:
+    - ftp

@@ -1,0 +1,29 @@
+---
+- name: Installation de MariaDB et dépendances Python
+  apt:
+    name:
+      - mariadb-server
+      - python3-pymysql
+    state: present
+    update_cache: yes
+
+- name: S'assurer que MariaDB est démarré
+  service:
+    name: mariadb
+    state: started
+    enabled: yes
+
+- name: Création d'une base de données pour le projet
+  mysql_db:
+    name: lab_db
+    state: present
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+
+- name: Création d'un utilisateur SQL avec privilèges
+  mysql_user:
+    name: admin_user
+    password: "root" # En production, on utiliserait Ansible Vault
+    priv: 'lab_db.*:ALL'
+    state: present
+    host: localhost
+    login_unix_socket: /var/run/mysqld/mysqld.sock

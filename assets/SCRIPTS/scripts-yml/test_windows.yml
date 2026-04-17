@@ -1,0 +1,13 @@
+---
+- name: Test de manipulation de fichiers Windows
+  hosts: windows
+  tasks:
+    - name: Créer le dossier de destination sur C:
+      win_file:
+        path: C:\Ansible_Lab
+        state: directory
+
+    - name: Générer un fichier de bienvenue personnalisé
+      win_shell: |
+        $date = Get-Date -Format "dd/MM/yyyy HH:mm"
+        "Fichier cree par Ansible le $date pour le lab de Ivan" | Out-File -FilePath C:\Ansible_Lab\welcome.txt -Encoding utf8

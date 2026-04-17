@@ -1,0 +1,14 @@
+---
+- name: Installation de MariaDB
+  apt:
+    name: 
+      - mariadb-server
+      - python3-pymysql
+    state: present
+    update_cache: yes
+
+- name: S'assurer que MariaDB est démarré
+  service:
+    name: mariadb
+    state: started
+    enabled: yes

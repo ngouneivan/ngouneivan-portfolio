@@ -22,6 +22,91 @@
     },
 
     {
+      "id": "dfs-ha",
+      "titre": "Architecture de Haute Disponibilité : Déploiement DFS & DFS-R",
+      "date": "2024",
+      "type": "Infrastructure Windows",
+      "pourquoi": "Garantir la continuité de service et la résilience des données dans une architecture Windows Server.",
+      "descriptionCourte": "Déploiement d’une architecture DFS/DFS-R haute disponibilité avec AD DS, GPO et réplication multi-maître.",
+      "descriptionLongue": "Dans le cadre de mon apprentissage à la SCP, j’ai conçu et déployé une architecture de haute disponibilité basée sur DFS et DFS-R. L’environnement comprend deux contrôleurs de domaine et deux serveurs de fichiers. J’ai mis en place une racine DFS-N (\\\\test.lab\\Partages), configuré la réplication multi-maître DFS-R, structuré les OU AD et appliqué un modèle RBAC strict. Ce projet m’a permis de maîtriser la résilience du stockage Windows et les bonnes pratiques d’architecture.",
+      "resultats": [
+        "Racine DFS-N centralisée et abstraite",
+        "Réplication DFS-R multi-maître opérationnelle",
+        "Architecture haute disponibilité fonctionnelle",
+        "Sécurisation via RBAC et GPO"
+      ],
+      "technologies": ["Windows Server", "DFS", "DFS-R", "AD DS", "GPO"],
+      "competences": ["Haute disponibilité", "Stockage distribué", "Administration Windows", "Sécurité AD"],
+      "impressions": 2100,
+      "image": "dfs.png",
+      "images": ["dfs2.png"]
+    },
+
+    {
+      "id": "rds-ha",
+      "titre": "Infrastructure RDS Haute Disponibilité avec profils itinérants",
+      "date": "2024",
+      "type": "Infrastructure Windows",
+      "pourquoi": "Fournir un accès distant fiable et performant pour les utilisateurs d’une entreprise.",
+      "descriptionCourte": "Déploiement d’une ferme RDS avec RD Broker, RD Gateway, équilibrage de charge et profils itinérants via DFS-R.",
+      "descriptionLongue": "J’ai déployé une infrastructure RDS complète comprenant un RD Broker, un RD Gateway sécurisé en HTTPS, un serveur de licences et deux Session Hosts en équilibrage de charge. Les profils utilisateurs sont stockés via User Profile Disks sur une architecture DFS-R haute disponibilité. L’ensemble est intégré à deux contrôleurs de domaine. Ce projet m’a permis de maîtriser les environnements RDS avancés et leur interopérabilité avec les services de fichiers.",
+      "resultats": [
+        "Ferme RDS fonctionnelle et redondante",
+        "Accès distant sécurisé via RD Gateway",
+        "Équilibrage de charge entre Session Hosts",
+        "Profils utilisateurs persistants via UPD + DFS-R"
+      ],
+      "technologies": ["RDS", "Windows Server", "DFS-R", "UPD", "AD DS"],
+      "competences": ["RDS", "Haute disponibilité", "Sécurité Windows", "Gestion des profils"],
+      "impressions": 1900,
+      "image": "rda.png",
+      "images": ["rda2.png"]
+    },
+
+    {
+      "id": "ansible-lab",
+      "titre": "Automatisation d’une infrastructure Linux avec Ansible",
+      "date": "2023",
+      "type": "Automatisation / DevOps",
+      "pourquoi": "Automatiser la gestion d’un parc de serveurs et éviter les tâches répétitives.",
+      "descriptionCourte": "Déploiement automatisé d’un serveur Web, d’une base de données et d’un serveur FTP via Ansible.",
+      "descriptionLongue": "Dans un lab composé de 4 machines Ubuntu sous VMware Workstation, j’ai automatisé l’installation d’Apache, MariaDB et d’un serveur FTP via Ansible. Le projet inclut la configuration automatique du firewall, un système d’auto-réparation du serveur Web et la génération de logs détaillés. Ce lab m’a permis de comprendre les principes d’Infrastructure as Code et la gestion moderne d’un parc Linux.",
+      "resultats": [
+        "Installation automatisée de services",
+        "Sécurisation automatique via firewall",
+        "Auto-réparation du serveur Web",
+        "Gestion centralisée via Ansible"
+      ],
+      "technologies": ["Ansible", "Linux", "Apache", "MariaDB", "VMware"],
+      "competences": ["Automatisation", "Scripting", "IaC", "Gestion Linux"],
+      "impressions": 1750,
+      "image": "ansibleauto.png",
+      "images": ["ansibleauto2.png"]
+    },
+
+    {
+      "id": "docker-autoscale",
+      "titre": "Infrastructure Docker auto‑scalable avec Terraform et PowerShell",
+      "date": "2025",
+      "type": "DevOps / Conteneurs",
+      "pourquoi": "Créer une infrastructure capable de s’adapter automatiquement à la charge.",
+      "descriptionCourte": "Provisionnement Docker Swarm via Terraform, monitoring Dozzle et auto‑scaling PowerShell basé sur la charge CPU.",
+      "descriptionLongue": "J’ai conçu une architecture capable de scaler automatiquement en fonction de la charge. Terraform provisionne l’infrastructure Docker Swarm, Dozzle assure le monitoring en temps réel et un script PowerShell déploie dynamiquement de nouveaux réplicas lors des pics de charge. Des tests de stress multi‑thread ont validé la robustesse du système. Ce projet démontre ma capacité à combiner IaC, conteneurs et automatisation avancée.",
+      "resultats": [
+        "Provisionnement automatisé via Terraform",
+        "Monitoring en temps réel avec Dozzle",
+        "Auto-scaling intelligent via PowerShell",
+        "Résilience validée par stress tests"
+      ],
+      "technologies": ["Terraform", "Docker Swarm", "PowerShell", "Dozzle"],
+      "competences": ["IaC", "Conteneurs", "Automation", "Monitoring"],
+      "impressions": 2000,
+      "image": "autoscale.png",
+      "images": ["autoscale2.png"]
+    },
+
+
+    {
       "id": "wazuh",
       "titre": "Déploiement d'une solution SIEM/XDR Wazuh",
       "date": "2025",

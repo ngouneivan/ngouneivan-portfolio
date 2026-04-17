@@ -1,0 +1,17 @@
+---
+- name: Reponse Auto-scaling - Deploiement de secours
+  hosts: windows
+  tasks:
+    - name: Alerte de surcharge recue
+      debug:
+        msg: "ALERTE CPU > 80%. Debut de la procedure de secours pour Ivan."
+
+    - name: Creer un flag d'urgence sur le serveur
+      win_file:
+        path: C:\Ansible_Lab\SCALING_ACTIVE.txt
+        state: touch
+
+    - name: Optimiser les services (Simulation)
+      win_service:
+        name: W3SVC
+        state: restarted

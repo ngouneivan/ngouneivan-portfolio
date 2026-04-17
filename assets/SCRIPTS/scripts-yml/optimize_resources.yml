@@ -1,0 +1,17 @@
+---
+- name: Optimisation d'urgence des ressources
+  hosts: windows
+  tasks:
+    - name: Arret des services non critiques pour liberer du CPU
+      win_service:
+        name: "{{ item }}"
+        state: stopped
+      loop:
+        - Spooler
+        - DiagTrack
+        - SysMain
+
+    - name: Changer la priorite du processus de jeu (Simulation)
+      win_shell: |
+        $process = Get-Process -Name "powershell" # On simule que c'est notre jeu
+        $process.PriorityClass = "High"

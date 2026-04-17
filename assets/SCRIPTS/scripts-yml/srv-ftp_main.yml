@@ -1,0 +1,11 @@
+---
+- name: Installation de ProFTPD
+  apt:
+    name: proftpd-basic
+    state: present
+
+- name: Démarrage du service FTP
+  service:
+    name: proftpd
+    state: started
+    enabled: yes

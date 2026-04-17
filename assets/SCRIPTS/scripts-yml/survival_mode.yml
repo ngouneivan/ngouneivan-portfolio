@@ -1,0 +1,24 @@
+---
+- name: Passage en mode Survie - Optimisation CPU
+  hosts: windows
+  tasks:
+    - name: Notification dans la console
+      debug:
+        msg: "Surcharge critique ! Nettoyage des services non-essentiels en cours..."
+
+    - name: Arret des services secondaires
+      win_service:
+        name: "{{ item }}"
+        state: stopped
+      loop:
+        - Spooler      # Service d'impression (inutile en cas de surcharge)
+        - DiagTrack    # Telemetrie Windows
+        - SysMain      # Superfetch (consomme du disque et du CPU)
+
+    - name: Booster la priorite du processus principal
+      win_shell: |
+        $proc = Get-Process -Name "powershell" -ErrorAction SilentlyContinue
+        if ($proc) {
+            $proc.PriorityClass = [System.Diagnostics.ProcessPriorityClass]::High
+            echo "Priorite passee en HAUTE pour le processus cible"
+        }
