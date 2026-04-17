@@ -1,20 +1,20 @@
 {
   "scripts": [
     {
-  "id": "bash-admin",
-  "nom": "Administration système",
-  "categorie": "bash",
-  "description": "Script Bash regroupant des commandes d’administration système.",
-  "fichier": "assets/SCRIPTS/scripts-bash/admin/admin.sh",
-  "type": "bash",
-  "technologies": ["Bash", "Linux"]
+      "id": "bash-admin",
+      "nom": "Administration système",
+      "categorie": "bash",
+      "description": "Script Bash regroupant des commandes d’administration système.",
+      "fichier": "assets/SCRIPTS/scripts-bash/admin/admin.sh",
+      "type": "bash",
+      "technologies": ["Bash", "Linux"]
     },
     {
       "id": "bash-apache",
       "nom": "Configuration Apache",
       "categorie": "bash",
       "description": "Script Bash pour configurer et gérer un serveur Apache.",
-      "fichier": "assets/SCRIPTS/scripts-bash/apache",
+      "fichier": "assets/SCRIPTS/scripts-bash/apache/apache.sh",
       "type": "bash",
       "technologies": ["Bash", "Apache"]
     },
@@ -23,7 +23,7 @@
       "nom": "Configuration système",
       "categorie": "bash",
       "description": "Script Bash pour automatiser des configurations système.",
-      "fichier": "assets/SCRIPTS/scripts-bash/conf",
+      "fichier": "assets/SCRIPTS/scripts-bash/conf/conf.sh",
       "type": "bash",
       "technologies": ["Bash", "Linux"]
     },
@@ -32,7 +32,7 @@
       "nom": "Configuration DHCP",
       "categorie": "bash",
       "description": "Script Bash pour configurer un serveur DHCP.",
-      "fichier": "assets/SCRIPTS/scripts-bash/dhcp",
+      "fichier": "assets/SCRIPTS/scripts-bash/dhcp/dhcp.sh",
       "type": "bash",
       "technologies": ["Bash", "DHCP"]
     },
@@ -41,7 +41,7 @@
       "nom": "Scripts d’installation",
       "categorie": "bash",
       "description": "Script Bash pour automatiser l’installation de services.",
-      "fichier": "assets/SCRIPTS/scripts-bash/install",
+      "fichier": "assets/SCRIPTS/scripts-bash/install/install.sh",
       "type": "bash",
       "technologies": ["Bash", "Automatisation"]
     },
@@ -50,7 +50,7 @@
       "nom": "Scripts SSH",
       "categorie": "bash",
       "description": "Script Bash pour gérer SSH et l’accès distant.",
-      "fichier": "assets/SCRIPTS/scripts-bash/ssh",
+      "fichier": "assets/SCRIPTS/scripts-bash/ssh/ssh.sh",
       "type": "bash",
       "technologies": ["Bash", "SSH"]
     },
@@ -59,7 +59,7 @@
       "nom": "Gestion des utilisateurs",
       "categorie": "bash",
       "description": "Script Bash pour gérer les utilisateurs Linux.",
-      "fichier": "assets/SCRIPTS/scripts-bash/user",
+      "fichier": "assets/SCRIPTS/scripts-bash/user/user.sh",
       "type": "bash",
       "technologies": ["Bash", "Linux"]
     },
@@ -72,6 +72,24 @@
       "fichier": "assets/SCRIPTS/scripts-powershell/VMS-ADDS-IP-DNS-SUR-2-SERVEURS-DNS-OK-PING-OK.ps1",
       "type": "powershell",
       "technologies": ["PowerShell", "Windows Server", "AD DS", "DNS"]
+    },
+    {
+      "id": "ps-monitor-cpu",
+      "nom": "Monitoring CPU automatique",
+      "categorie": "powershell",
+      "description": "Script PowerShell pour surveiller l'utilisation CPU et générer des alertes.",
+      "fichier": "assets/SCRIPTS/scripts-powershell/monitor_cpu.ps1",
+      "type": "powershell",
+      "technologies": ["PowerShell", "Monitoring"]
+    },
+    {
+      "id": "ps-ad-auto",
+      "nom": "Automatisation AD DS",
+      "categorie": "powershell",
+      "description": "Script PowerShell pour automatiser la création et configuration de serveurs Active Directory.",
+      "fichier": "assets/SCRIPTS/scripts-powershell/AD-Auto-Servers.ps1",
+      "type": "powershell",
+      "technologies": ["PowerShell", "AD DS", "Windows Server"]
     },
 
     {
@@ -118,6 +136,70 @@
       "fichier": "assets/SCRIPTS/scripts-txt/SCRIPT_MARIA_BDD.txt",
       "type": "txt",
       "technologies": ["MariaDB"]
+    },
+
+    {
+      "id": "yml-ansible-site",
+      "nom": "Playbook principal Ansible",
+      "categorie": "yml",
+      "description": "Playbook Ansible orchestrant le déploiement complet de l’infrastructure.",
+      "fichier": "assets/SCRIPTS/scripts-yml/site.yml",
+      "type": "yml",
+      "technologies": ["Ansible", "IaC"]
+    },
+    {
+      "id": "yml-ansible-web",
+      "nom": "Déploiement serveur Web",
+      "categorie": "yml",
+      "description": "Playbook Ansible pour installer et configurer Apache.",
+      "fichier": "assets/SCRIPTS/scripts-yml/srv-web_main.yml",
+      "type": "yml",
+      "technologies": ["Ansible", "Apache"]
+    },
+    {
+      "id": "yml-ansible-mariadb",
+      "nom": "Déploiement MariaDB",
+      "categorie": "yml",
+      "description": "Playbook Ansible pour installer et configurer MariaDB.",
+      "fichier": "assets/SCRIPTS/scripts-yml/mariadb_main.yml",
+      "type": "yml",
+      "technologies": ["Ansible", "MariaDB"]
+    },
+    {
+      "id": "yml-ansible-ftp",
+      "nom": "Déploiement serveur FTP",
+      "categorie": "yml",
+      "description": "Playbook Ansible pour installer et configurer un serveur FTP.",
+      "fichier": "assets/SCRIPTS/scripts-yml/srv-ftp_main.yml",
+      "type": "yml",
+      "technologies": ["Ansible", "FTP"]
+    },
+    {
+      "id": "yml-ansible-advanced-mariadb",
+      "nom": "MariaDB avancé",
+      "categorie": "yml",
+      "description": "Playbook avancé pour optimiser MariaDB.",
+      "fichier": "assets/SCRIPTS/scripts-yml/advanced_mariadb_main.yml",
+      "type": "yml",
+      "technologies": ["Ansible", "MariaDB"]
+    },
+    {
+      "id": "yml-ansible-scaling",
+      "nom": "Auto-scaling Docker",
+      "categorie": "yml",
+      "description": "Playbook Ansible pour déployer un système d’auto-scaling Docker.",
+      "fichier": "assets/SCRIPTS/scripts-yml/deploy_scaling.yml",
+      "type": "yml",
+      "technologies": ["Ansible", "Docker"]
+    },
+    {
+      "id": "yml-ansible-survival",
+      "nom": "Mode survie serveur Web",
+      "categorie": "yml",
+      "description": "Playbook Ansible pour détecter et relancer automatiquement un service Web.",
+      "fichier": "assets/SCRIPTS/scripts-yml/survival_mode.yml",
+      "type": "yml",
+      "technologies": ["Ansible", "Monitoring"]
     }
   ]
 }
