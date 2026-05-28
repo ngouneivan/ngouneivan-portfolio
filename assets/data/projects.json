@@ -22,6 +22,28 @@
     },
 
     {
+      "id": "veeam-321",
+      "titre": "Stratégie de sauvegarde hybride 3-2-1 avec Veeam & Cloud Immutability",
+      "date": "2025",
+      "type": "Backup & Cyber-Résilience",
+      "pourquoi": "Mettre en place une stratégie de sauvegarde robuste face aux ransomwares en combinant stockage local, cloud et immuabilité.",
+      "descriptionCourte": "Déploiement d’une stratégie 3-2-1 avec Veeam : sauvegarde AD, stockage local, externalisation AWS S3 immuable et tests de restauration.",
+      "descriptionLongue": "Dans le cadre de mon Master MICSI, j’ai conçu une stratégie de sauvegarde hybride basée sur la règle 3-2-1. J’ai déployé Veeam Backup & Replication pour protéger un serveur Active Directory avec sauvegarde Application-Aware (VSS). L’architecture combine un stockage local pour les restaurations rapides et un stockage objet AWS S3 configuré en mode immuable pour contrer les ransomwares. J’ai réalisé plusieurs tests de restauration : récupération granulaire d’objets AD, restauration Bare Metal via création d’une nouvelle VM, et File-Level Recovery. Ce projet m’a permis de maîtriser les mécanismes de cyber-résilience, la gestion des conflits BIOS UUID, les limitations de licences Community Edition et la configuration des quotas cloud.",
+      "resultats": [
+        "Stratégie 3-2-1 opérationnelle",
+        "Sauvegarde Application-Aware (VSS) pour AD",
+        "Externalisation sécurisée via AWS S3 immuable",
+        "Tests de restauration granulaire, FLR et Bare Metal",
+        "Architecture hybride locale + cloud"
+      ],
+      "technologies": ["Veeam", "AWS S3", "Windows Server", "VMware", "Stockage Objet", "Immutabilité"],
+      "competences": ["Backup & Recovery", "Cyber-Résilience", "Cloud AWS", "Administration Windows", "Virtualisation"],
+      "impressions": 2200,
+      "image": "veeam321.png",
+      "images": ["veeam321_2.png"]
+  },
+
+    {
       "id": "dfs-ha",
       "titre": "Architecture de Haute Disponibilité : Déploiement DFS & DFS-R",
       "date": "2024",
