@@ -525,6 +525,74 @@
       "impressions": 0,
       "image": "guacamole.png",
       "images": ["guacamole2.png"]
+    },
+
+    
+    {
+      "id": "hybrid-entra-ad",
+      "titre": "Infrastructure Hybride : De Microsoft Entra ID à la Réplication Active Directory (VMware ↔ Azure)",
+      "date": "2026",
+      "type": "Cloud Hybride / Réseau",
+      "pourquoi": "Déployer une architecture hybride moderne combinant identités cloud et annuaire Active Directory pour assurer gouvernance, sécurité et PRA.",
+      "descriptionCourte": "Déploiement d’une architecture hybride complète : Entra ID, AD DS, VPN Site-à-Site, DNS privé et réplication Active Directory.",
+      "descriptionLongue": "Déploiement d'une architecture hybride complète combinant la gestion des identités modernes et la mise en place d'un PRA pour les services d'annuaire. Configuration d'une passerelle RRAS sur VMware, d'une Virtual Network Gateway sur Azure, et établissement d'un tunnel VPN Site-à-Site sécurisé via IPsec/IKEv2. Mise en place d’un DNS privé Azure, jointure d’un Windows Server Azure au domaine, installation AD DS et promotion en contrôleur secondaire. Validation de la réplication via repadmin.",
+      "resultats": [
+        "Tunnel VPN Site-à-Site sécurisé",
+        "Intégration Entra ID ↔ Active Directory",
+        "DNS privé fonctionnel",
+        "Promotion d’un DC secondaire Azure",
+        "Réplication AD validée"
+      ],
+      "technologies": ["Microsoft Entra ID", "Active Directory", "Azure", "RRAS", "IPsec", "DNS"],
+      "competences": ["VPN", "Azure", "AD DS", "Sécurité Réseau", "Cloud Hybride"],
+      "impressions": 2100,
+      "image": "hybrid_azure_ad.png",
+      "images": ["hybrid_azure_ad_2.png"]
+    },
+    
+    {
+      "id": "sentinel-siem",
+      "titre": "SIEM Hybride avec Microsoft Sentinel — Détection & Réponse Automatisée (SOAR)",
+      "date": "2026",
+      "type": "Cybersécurité / Cloud",
+      "pourquoi": "Mettre en place une chaîne de détection complète capable d’analyser les événements on-premises et cloud, et d’automatiser la réponse aux incidents.",
+      "descriptionCourte": "Déploiement d’un SIEM cloud-native avec Microsoft Sentinel : collecte hybride, règles KQL MITRE ATT&CK, incidents automatiques et playbooks SOAR.",
+      "descriptionLongue": "Conception d'un SIEM cloud-native complet avec Microsoft Sentinel. Raccordement d’un contrôleur de domaine on-prem via Azure Arc, collecte des SecurityEvents via Azure Monitor Agent, création de règles KQL mappées MITRE ATT&CK, génération automatique d’incidents enrichis, réponse automatisée via Logic App SOAR, tableau de bord SOC, et déploiement IaC via Terraform.",
+      "resultats": [
+        "Collecte hybride via Azure Arc",
+        "Règles KQL MITRE ATT&CK",
+        "Incidents automatiques enrichis",
+        "Playbook SOAR fonctionnel",
+        "Déploiement IaC via Terraform"
+      ],
+      "technologies": ["Microsoft Sentinel", "Azure Arc", "KQL", "Terraform", "Logic Apps", "MITRE ATT&CK"],
+      "competences": ["Détection d’intrusion", "SIEM", "SOAR", "Azure", "IaC"],
+      "impressions": 2500,
+      "image": "sentinel_siem.png",
+      "images": ["sentinel_siem_2.png"],
+      "lien": "https://github.com/ngouneivan/azure-sentinel-lab"
+    },
+    {
+      "id": "sccm-2022",
+      "titre": "Lab SCCM 2022 — Déploiement complet en environnement virtuel",
+      "date": "2026",
+      "type": "Administration Systèmes / Déploiement",
+      "pourquoi": "Maîtriser l’ensemble des fonctionnalités de SCCM pour la gestion des postes, le déploiement applicatif, l’OSD et les mises à jour.",
+      "descriptionCourte": "Déploiement complet de SCCM 2022 : SQL Server, rôles SCCM, OSD Windows 10, déploiement applicatif, WSUS et reporting SSRS.",
+      "descriptionLongue": "Déploiement d’un lab SCCM complet sous VMware : installation SQL Server 2022, extension du schéma AD, configuration des rôles SCCM (DP, MP, SUP, Reporting Services), installation automatique du client via Client Push, regroupements dynamiques WQL, inventaire matériel/logiciel, déploiement applicatif, configuration WSUS, séquence OSD Windows 10 22H2 via WinPE, intégration SSRS pour reporting.",
+      "resultats": [
+        "Déploiement complet de SCCM 2022",
+        "Client Push automatisé",
+        "Déploiement applicatif",
+        "Séquence OSD Windows 10 22H2",
+        "Reporting SSRS opérationnel"
+      ],
+      "technologies": ["SCCM", "SQL Server", "WSUS", "Windows Server", "VMware", "SSRS"],
+      "competences": ["Active Directory", "Windows Server", "SCCM", "OSD", "Virtualisation"],
+      "impressions": 2300,
+      "image": "sccm2022.png",
+      "images": ["sccm2022_2.png"]
     }
+
   ]
 }
